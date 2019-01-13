@@ -3,6 +3,9 @@
 #include <iostream>
 #include <vector>
 
+#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
+#include "catch.hpp"
+
 bool isNumber(const std::string& number)
 {
 	size_t idx = 0;
@@ -134,8 +137,7 @@ bool isSquareMatrix(const std::string& matrix)
 	return true;
 }
 
-int main()
-{
+TEST_CASE("A", "[isSquareMatrix]") {
 	std::vector<std::string> corrects = {};
 	std::vector<std::string> invalids = {};
 
@@ -151,20 +153,18 @@ int main()
 	invalids.push_back("[[1,2][1,2,4][3,4,1]]");    // ?x3 fault at start
 	invalids.push_back("[[1.1,2,0.31][-13,-1.4,6.01][5.11,1.5.2,-.7]]"); // double dot
 	invalids.push_back("[[1.1,2,0.31][1-3,-1.4,6.01][5.11,1.5,-.7]]"); // minus sign wrong place
-	invalids.push_back("[[1.1,2,0.31][1-3,1.4,6.01][5.11,1.5,-.7]]"); // minus sign wrong place
-	invalids.push_back("[[1.1,2,0.3e][1-3,1.4,6.01][5.11,1.5,-.7]]"); // illegal character
+	invalids.push_back("[[1.1,2,0.31][+-3,1.4,6.01][5.11,1.5,-.7]]"); // plusminus sign
+	invalids.push_back("[[1.1,2,0.3e][13,1.4,6.01][5.11,1.5,-.7]]"); // illegal character
 
 	std::cout << "test corrects: \n\n";
 	for (std::string c : corrects)
 	{
-		std::cout << c << " : " << isSquareMatrix(c) << "\n\n";
+		REQUIRE(isSquareMatrix(c) == true);
 	}
 
 	std::cout << "test invalids: \n\n";
 	for (std::string c : invalids)
 	{
-		std::cout << c << " : " << isSquareMatrix(c) << "\n\n";
+		REQUIRE(isSquareMatrix(c) == false);
 	}
-
-	std::cout << "quit \n";
 }
