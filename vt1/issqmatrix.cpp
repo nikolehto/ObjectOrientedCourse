@@ -10,10 +10,9 @@ bool isNumber(const std::string& number)
 {
 	size_t idx = 0;
 
-	long double temp;
 	try
 	{
-		temp = std::stold(number, &idx);
+		std::stold(number, &idx);
 	}
 	catch (std::invalid_argument nn)
 	{
@@ -62,7 +61,7 @@ bool isSquareMatrix(const std::string& matrix)
 	bool matrix_ends = false;
 
 	size_t row_dimension = 0;
-	size_t column_dimension = -1;
+	size_t column_dimension = 0;
 	while(!matrix_ends)
 	{
 		// find end of new row
@@ -114,7 +113,7 @@ bool isSquareMatrix(const std::string& matrix)
 
 			elem_start_idx = elem_end_idx + 1;
 		}
-		if (column_dimension == -1 || column_dimension == current_column_dimension)
+		if (column_dimension == 0 || column_dimension == current_column_dimension)
 		{
 			column_dimension = current_column_dimension;
 		}
