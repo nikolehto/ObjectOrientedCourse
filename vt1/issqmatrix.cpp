@@ -146,6 +146,13 @@ TEST_CASE("A", "[isSquareMatrix]") {
 	corrects.push_back("[[61161,233333,1][315151,441241,3][1,51661,67777772222222222777222222777777767777777777777777777777777777777777345777777767777777777777777777777777777777777345777777777777345]]"); // 3x3 long numbers
 	corrects.push_back("[[1.1,2,+0.31][-13,-1.4,6.01][5.11,.5,-.7]]"); // negative and float numners
 	invalids.push_back("a[2]]");
+	invalids.push_back("[[]]");
+	invalids.push_back("1[2]]");
+	invalids.push_back("[[2]1");
+	invalids.push_back("[[1,2,]1[3,4,6][5,6,7]]");
+	invalids.push_back("[[1,2][4,6]]5,6,7]]"); // ends too soon
+	invalids.push_back("[[1,2][4,6]]]"); // end characters wrong
+	invalids.push_back("[[[1,2][4,6]]"); // start characters wrong
 	invalids.push_back("[[1,2,5][3,4,6]]"); // 3x2
 	invalids.push_back("[[1,2][3,4][1,2]]");	// 2x3
 	invalids.push_back("[[1,2,4][3,4,1][1,2]]");	// ?x3 fault at end
