@@ -12,8 +12,7 @@ private:
 
 public:
 	SquareMatrix();
-	SquareMatrix(IntElement i11, IntElement i12, IntElement i21, IntElement i22);
-	SquareMatrix(IntElement& i11, IntElement& i12, IntElement& i21, IntElement& i22);
+	SquareMatrix(const IntElement& i11, const IntElement& i12, const IntElement& i21, const IntElement& i22);
 	SquareMatrix(const SquareMatrix& i);
 	~SquareMatrix();
 

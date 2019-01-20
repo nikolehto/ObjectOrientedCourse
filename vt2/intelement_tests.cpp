@@ -8,7 +8,7 @@ TEST_CASE("A", "[isValidInt]") {
 	a = 3;
 	b = 5;
 
-	IntElement aie(a), bie(b), result_ie(0);
+	IntElement aie(a), bie(b), result_ie(0), result2_ie(0);
 
 	a += b;
 	aie += bie;
@@ -41,7 +41,8 @@ TEST_CASE("A", "[isValidInt]") {
 	REQUIRE(result_ie == IntElement(result));
 
 	result = a * b;
+	result2_ie.setVal(result);
 	result_ie = aie * bie;
 
-	REQUIRE(result_ie == IntElement(result));
+	REQUIRE(result_ie == result2_ie);
 }

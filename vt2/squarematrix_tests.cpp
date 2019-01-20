@@ -9,7 +9,10 @@ TEST_CASE("B", "[SquareMatrix]") {
 		, b(IntElement(2), IntElement(3), IntElement(4), IntElement(5))
 		, result1(IntElement(3), IntElement(5), IntElement(7), IntElement(9))
 		, result3(IntElement(10), IntElement(13), IntElement(22), IntElement(29))
-		, a_orig = a; // use of copy constructor
+		, clone_constructed_a = a
+		, empty_constructed;
+
+	REQUIRE(a == clone_constructed_a);
 
 	std::string a_string = "[[1,2][3,4]]";
 	std::string b_string = "[[2,3][4,5]]";
@@ -23,7 +26,7 @@ TEST_CASE("B", "[SquareMatrix]") {
 
 	a -= b;
 
-	REQUIRE(a == a_orig);
+	REQUIRE(a == clone_constructed_a);
 
 	a *= b;
 
@@ -48,9 +51,11 @@ TEST_CASE("B", "[SquareMatrix]") {
 	out_4 << result3.toString();
 	REQUIRE(out_1.str() == out_4.str());
 
-	REQUIRE(a_orig + b == result1);
+	REQUIRE(clone_constructed_a + b == result1);
 
-	REQUIRE(result1 - b == a_orig);
+	REQUIRE(result1 - b == clone_constructed_a);
 
-	REQUIRE(a_orig * b == result3);
+	REQUIRE(clone_constructed_a * b == result3);
+
+	REQUIRE(clone_constructed_a + empty_constructed == clone_constructed_a);
 }
