@@ -1,5 +1,4 @@
 #include "catch.hpp"
-
 #include "intelement.h"
 
 IntElement::IntElement()

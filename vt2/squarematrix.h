@@ -17,6 +17,9 @@ public:
 	SquareMatrix(const SquareMatrix& i);
 	~SquareMatrix();
 
+	void print(std::ostream& stream) const;
+	std::string toString() const;
+
 	SquareMatrix& operator+=(const SquareMatrix& i);
 	SquareMatrix& operator-=(const SquareMatrix& i);
 	SquareMatrix& operator*=(const SquareMatrix& i);
@@ -24,6 +27,6 @@ public:
 	friend SquareMatrix operator+(const SquareMatrix& a, const SquareMatrix& b);
 	friend SquareMatrix operator-(const SquareMatrix& a, const SquareMatrix& b);
 	friend SquareMatrix operator*(const SquareMatrix& a, const SquareMatrix& b);
-	friend std::ostream& operator<<(std::ostream& a, const SquareMatrix& b);
+	friend std::ostream& operator<<(std::ostream& stream, const SquareMatrix& m);
 };
 #endif

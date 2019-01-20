@@ -1,4 +1,3 @@
-
 #define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 
 #include "catch.hpp"
@@ -8,7 +7,7 @@
 TEST_CASE("B", "[SquareMatrix]") {
 	SquareMatrix a(IntElement(1), IntElement(2), IntElement(3), IntElement(4))
 		, b(IntElement(2), IntElement(3), IntElement(4), IntElement(5))
-		, result1(IntElement(2), IntElement(5), IntElement(7), IntElement(9))
+		, result1(IntElement(3), IntElement(5), IntElement(7), IntElement(9))
 		, result3(IntElement(10), IntElement(13), IntElement(22), IntElement(29))
 		, a_orig = a; // use of copy constructor
 
@@ -42,6 +41,12 @@ TEST_CASE("B", "[SquareMatrix]") {
 	out_2 << result3_string;
 
 	REQUIRE(out_1.str() == out_2.str());
+
+	result3.print(out_3);
+	REQUIRE(out_1.str() == out_3.str());
+
+	out_4 << result3.toString();
+	REQUIRE(out_1.str() == out_4.str());
 
 	REQUIRE(a_orig + b == result1);
 

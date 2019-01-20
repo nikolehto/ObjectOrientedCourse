@@ -27,10 +27,26 @@ SquareMatrix::SquareMatrix(IntElement& i11, IntElement& i12, IntElement& i21, In
 
 SquareMatrix::SquareMatrix(const SquareMatrix& i)
 {
-	*this = SquareMatrix() + i; // TODO TEST
+	this->e11 = i.e11;
+	this->e12 = i.e12;
+	this->e21 = i.e21;
+	this->e22 = i.e22;
 }
 
 SquareMatrix::~SquareMatrix() = default;
+
+void SquareMatrix::print(std::ostream & stream) const
+{
+	stream << *this;
+	return;
+}
+
+std::string SquareMatrix::toString() const
+{
+	std::stringstream result;
+	result << *this;
+	return result.str();
+}
 
 SquareMatrix& SquareMatrix::operator+=(const SquareMatrix& i)
 {
@@ -83,10 +99,10 @@ SquareMatrix operator*(const SquareMatrix& a, const SquareMatrix& b)
 	return t_a;
 }
 
-std::ostream& operator<<(std::ostream& o, const SquareMatrix& v)
+std::ostream& operator<<(std::ostream& stream, const SquareMatrix& m)
 {
-	o << "[[" << v.e11 << "," << v.e12 << "][" << v.e21 << "," << v.e22 << "]]";
-	return o;
+	stream << "[[" << m.e11 << "," << m.e12 << "][" << m.e21 << "," << m.e22 << "]]";
+	return stream;
 }
 
 bool operator==(const SquareMatrix& a, const SquareMatrix& b)

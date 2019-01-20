@@ -24,7 +24,7 @@ public:
 	friend IntElement operator+(const IntElement& a, const IntElement& b);
 	friend IntElement operator-(const IntElement& a, const IntElement& b);
 	friend IntElement operator*(const IntElement& a, const IntElement& b);
-	friend std::ostream& operator<<(std::ostream& a, const IntElement& b);
+	friend std::ostream& operator<<(std::ostream& a, const IntElement& b); // TODO CONST?
 
 	/* inline https://stackoverflow.com/questions/4421706/what-are-the-basic-rules-and-idioms-for-operator-overloading
 	IntElement& operator+(const IntElement& b);
