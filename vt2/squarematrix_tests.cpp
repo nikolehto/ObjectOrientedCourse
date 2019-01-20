@@ -4,7 +4,14 @@
 #include "squarematrix.h"
 #include "intelement.h"
 
-TEST_CASE("B", "[SquareMatrix]") {
+/**
+ *  @file squarematrix_tests.cpp
+ *  @version 1.0
+ *  @brief Test Case for SquareMatrix class
+ *  @author Niko Lehto
+ *  */
+
+TEST_CASE("SquareMatrix", "[SquareMatrix]") {
 	SquareMatrix a(IntElement(1), IntElement(2), IntElement(3), IntElement(4))
 		, b(IntElement(2), IntElement(3), IntElement(4), IntElement(5))
 		, result1(IntElement(3), IntElement(5), IntElement(7), IntElement(9))

@@ -5,11 +5,18 @@
 #include "catch.hpp"
 #include <sstream>
 
+
+/**
+ * @file squarematrix.h
+ * @version 1.0
+ * @brief Declaration of SquareMatrix
+ * @author Niko Lehto
+ */
 class SquareMatrix
 {
 private:
-	IntElement e11, e12, e21, e22;
-
+	IntElement e11, e12, e21, e22; 
+    
 public:
 	SquareMatrix();
 	SquareMatrix(const IntElement& i11, const IntElement& i12, const IntElement& i21, const IntElement& i22);

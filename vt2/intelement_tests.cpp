@@ -1,7 +1,14 @@
 #include "intelement.h"
 #include "catch.hpp"
 
-TEST_CASE("A", "[isValidInt]") {
+/**
+ *  @file intelement_tests.cpp
+ *  @version 1.0
+ *  @brief Test Case for IntElement class
+ *  @author Niko Lehto
+ *  */
+
+TEST_CASE("IntElement", "[isValidInt]") {
 	int a, b, result;
 	std::stringstream out_1, out_2;
 

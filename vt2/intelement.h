@@ -4,6 +4,13 @@
 #include <sstream>
 #include "catch.hpp"
 
+/**
+ *  @file intelement.h
+ *  @version 1.0
+ *  @brief Declaration of IntElement
+ *  @author Niko Lehto
+ *  */
+
 class IntElement
 {
 private:
