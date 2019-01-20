@@ -1,7 +1,9 @@
-#include <string>
-
 #ifndef INTELEMENT_H
 #define INTELEMENT_H
+
+#include <sstream>
+#include "catch.hpp"
+
 class IntElement
 {
 private:
@@ -10,6 +12,7 @@ private:
 public: 
 	IntElement();
 	IntElement(int v);
+	IntElement(const IntElement& i);
 	~IntElement();
 	int getVal() const;
 	void setVal(int v);
@@ -17,6 +20,10 @@ public:
 	IntElement& operator+=(const IntElement& i);
 	IntElement& operator-=(const IntElement& i);
 	IntElement& operator*=(const IntElement& i);
+	friend bool operator==(const IntElement& a, const IntElement& b);
+	friend IntElement operator+(const IntElement& a, const IntElement& b);
+	friend IntElement operator-(const IntElement& a, const IntElement& b);
+	friend IntElement operator*(const IntElement& a, const IntElement& b);
 	friend std::ostream& operator<<(std::ostream& a, const IntElement& b);
 
 	/* inline https://stackoverflow.com/questions/4421706/what-are-the-basic-rules-and-idioms-for-operator-overloading

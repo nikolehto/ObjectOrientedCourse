@@ -1,9 +1,6 @@
-#include <sstream>
-#include "intelement.h"
-#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.hpp"
 
-
+#include "intelement.h"
 
 IntElement::IntElement()
 {
@@ -13,6 +10,11 @@ IntElement::IntElement()
 IntElement::IntElement(int v)
 {
 	intelement = v;
+}
+
+IntElement::IntElement(const IntElement& i)
+{
+	intelement = i.getVal();
 }
 
 IntElement::~IntElement() = default;
@@ -45,41 +47,34 @@ IntElement& IntElement::operator*=(const IntElement& i)
 	return *this;
 }
 
+IntElement operator+(const IntElement& a, const IntElement& b)
+{
+	IntElement t_a(a);
+	t_a += b;
+	return t_a;
+}
+
+IntElement operator-(const IntElement& a, const IntElement& b)
+{
+	IntElement t_a(a);
+	t_a -= b;
+	return t_a;
+}
+
+IntElement operator*(const IntElement& a, const IntElement& b)
+{
+	IntElement t_a(a);
+	t_a *= b;
+	return t_a;
+}
+
 std::ostream& operator<<(std::ostream& o, const IntElement& v)
 {
 	o << std::to_string(v.intelement);
 	return o;
 }
 
-
-TEST_CASE("A", "[isValidInt]") {
-	int a, b, result;
-	std::stringstream out_1, out_2;
-
-	a = 3;
-	b = 5;
-	result = 0;
-
-	IntElement aie(a), bie(b), result_ie(0);
-
-	a += b;
-	aie += bie;
-
-	REQUIRE(a == aie.getVal());
-	
-	a -= b;
-	aie -= bie;
-
-	REQUIRE(a == aie.getVal());
-
-	a *= b;
-	aie *= bie;
-
-	REQUIRE(a == aie.getVal());
-
-	out_1 << a;
-	out_2 << aie;
-
-	REQUIRE(out_1.str() == out_2.str());
-
+bool operator==(const IntElement& a, const IntElement& b)
+{
+	return a.getVal() == b.getVal();
 }
