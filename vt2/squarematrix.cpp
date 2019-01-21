@@ -5,7 +5,8 @@
  *  @file squarematrix.cpp
  *  @brief Implementation of SquareMatrix
  *  */
-/**
+ 
+ /**
  *  @class SquareMatrix
  *  @version 1.0
  *  @brief Implementation for 2x2 dimensional SquareMatrix 
@@ -15,20 +16,16 @@
 /**
  *  \brief Empty constructor
  */
-SquareMatrix::SquareMatrix()
+SquareMatrix::SquareMatrix() : SquareMatrix(0, 0, 0, 0)
 {
-	e11 = 0;
-	e12 = 0;
-	e21 = 0;
-	e22 = 0;
 }
 
 /**
  *  \brief Parameterized constructor
- *  \param [in] i11 Element of matrix, format: e_{ij} where _{i} refers to row and _{j} refers to column
- *  \param [in] i12 Element of matrix, format: e_{ij} where _{i} refers to row and _{j} refers to column
- *  \param [in] i21 Element of matrix, format: e_{ij} where _{i} refers to row and _{j} refers to column
- *  \param [in] i22 Element of matrix, format: e_{ij} where _{i} refers to row and _{j} refers to column
+ *  \param [in] i11 const IntElement& i11 of matrix, format: i<SUB>ij</SUB> where <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
+ *  \param [in] i12 const IntElement& i11 of matrix, format: i<SUB>ij</SUB> where <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
+ *  \param [in] i21 const IntElement& i11 of matrix, format: i<SUB>ij</SUB> where <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
+ *  \param [in] i22 const IntElement& i11 of matrix, format: i<SUB>ij</SUB> where <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
 */
 SquareMatrix::SquareMatrix(const IntElement& i11, const IntElement& i12, const IntElement& i21, const IntElement& i22)
 {
@@ -40,7 +37,7 @@ SquareMatrix::SquareMatrix(const IntElement& i11, const IntElement& i12, const I
 
 /**
  *  \brief Clone constructor
- *  \param [in] i SquareMatrix
+ *  \param [in] i const SquareMatrix& object to clone
  */
 SquareMatrix::SquareMatrix(const SquareMatrix& i)
 {
@@ -56,19 +53,21 @@ SquareMatrix::SquareMatrix(const SquareMatrix& i)
 SquareMatrix::~SquareMatrix() = default;
 
 /**
- *  \brief Write object to stream in form of [[<i_{11}>,<i_{12}>][<i_{21}>,<i_{22}>]]
- *  \param [out] stream output stream
+ *  \brief Write object to stream in form of [[<i<SUB>11</SUB>>,<i<SUB>12</SUB>>][<i<SUB>21</SUB>>,<i<SUB>22</SUB>>]]
+ *		where i<SUB>ij</SUB> : <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
+ *  \param [out] stream std::ostream& output stream
  */
 void SquareMatrix::print
-    (std::ostream & stream) const
+    (std::ostream& stream) const
 {
 	stream << *this;
 	return;
 }
 
 /**
- *  \brief Write object to string in form of [[<i_{11}>,<i_{12}>][<i_{21}>,<i_{22}>]]
- *  \return string holding object
+ *  \brief Write object to string in form of [[<i<SUB>11</SUB>>,<i<SUB>12</SUB>>][<i<SUB>21</SUB>>,<i<SUB>22</SUB>>]]
+*		where i<SUB>ij</SUB> : <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
+ *  \return std::string object as a string 
  *  */
 std::string SquareMatrix::toString() const
 {
@@ -79,7 +78,7 @@ std::string SquareMatrix::toString() const
 
 /**
  *  \brief Addition assignment. Performs matrix addition by adding right-hand side into left-hand side of equation
- *  \param [in] i SquareMatrix
+ *  \param [in] i const SquareMatrix& i
  *  \return Reference to left-hand side matrix added by i
  */
 SquareMatrix& SquareMatrix::operator+=(const SquareMatrix& i)
@@ -93,7 +92,7 @@ SquareMatrix& SquareMatrix::operator+=(const SquareMatrix& i)
 
  /**
  *  \brief Substraction assignment. Performs matrix substraction by substracting right-hand side from the left-hand side of equation
- *  \param [in] i SquareMatrix
+ *  \param [in] i const SquareMatrix& i
  *  \return Reference to left-hand side matrix substracted by i
  */
 SquareMatrix& SquareMatrix::operator-=(const SquareMatrix& i)
@@ -107,7 +106,7 @@ SquareMatrix& SquareMatrix::operator-=(const SquareMatrix& i)
 
 /**
  *  \brief Multiplication assignment. Performs matrix dot product by multiplying right-hand side into left-hand side of equation
- *  \param [in] i SquareMatrix
+ *  \param [in] i const SquareMatrix& i
  *  \return Reference to left-hand side matrix multiplied by i
  */
 SquareMatrix& SquareMatrix::operator*=(const SquareMatrix& i)
@@ -124,8 +123,8 @@ SquareMatrix& SquareMatrix::operator*=(const SquareMatrix& i)
 
 /**
  *  \brief Addition. Performs matrix addition by adding a and b
- *  \param [in] a SquareMatrix
- *  \param [in] b SquareMatrix
+ *  \param [in] a const SquareMatrix&
+ *  \param [in] b const SquareMatrix&
  *  \return Addition of a and b
  */
 SquareMatrix operator+(const SquareMatrix& a, const SquareMatrix& b)
@@ -137,8 +136,8 @@ SquareMatrix operator+(const SquareMatrix& a, const SquareMatrix& b)
 
 /**
  *  \brief Substraction. Performs matrix substraction by substracting b from a
- *  \param [in] a SquareMatrix
- *  \param [in] b SquareMatrix
+ *  \param [in] a const SquareMatrix&
+ *  \param [in] b const SquareMatrix&
  *  \return Substraction of a and b
  */
 SquareMatrix operator-(const SquareMatrix& a, const SquareMatrix& b)
@@ -150,8 +149,8 @@ SquareMatrix operator-(const SquareMatrix& a, const SquareMatrix& b)
 
 /**
  *  \brief Multiplication. Performs matrix dot-product by multiplying a and b
- *  \param [in] a SquareMatrix
- *  \param [in] b SquareMatrix
+ *  \param [in] a const SquareMatrix&
+ *  \param [in] b const SquareMatrix&
  *  \return Dot-product of a and b
  */
 SquareMatrix operator*(const SquareMatrix& a, const SquareMatrix& b)
@@ -162,9 +161,9 @@ SquareMatrix operator*(const SquareMatrix& a, const SquareMatrix& b)
 }
 
 /**
- *  \brief Write object to stream in form of [[<i_{11}>,<i_{12}>][<i_{21}>,<i_{22}>]]
- *  \param [in] stream
- *  \param [in] m 
+ *  \brief Write object to stream in form of [[<i<SUB>11</SUB>>,<i<SUB>12</SUB>>][<i<SUB>21</SUB>>,<i<SUB>22</SUB>>]]
+ *  \param [in,out] stream std::ostream&
+ *  \param [in] m const SquareMatrix& m
  *  \return stream appended by object
  */
 std::ostream& operator<<(std::ostream& stream, const SquareMatrix& m)
@@ -175,9 +174,9 @@ std::ostream& operator<<(std::ostream& stream, const SquareMatrix& m)
 
 /**
  *  \brief Overload of equal comparison
- *  \param [in] a SquareMatrix
- *  \param [in] b SquareMatrix
- *  \return true if a == b
+ *  \param [in] a const SquareMatrix& value
+ *  \param [in] b const SquareMatrix& value for comparison
+ *  \return bool true if a == b
  */
 bool operator==(const SquareMatrix& a, const SquareMatrix& b)
 {

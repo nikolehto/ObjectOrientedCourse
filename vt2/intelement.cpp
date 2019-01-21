@@ -22,7 +22,7 @@ IntElement::IntElement()
 
 /**
  *  \brief Parameterized constructor
- *  \param [in] v initial value for IntElement
+ *  \param [in] v int initial value for IntElement
  * */
 IntElement::IntElement(int v)
 {
@@ -31,7 +31,7 @@ IntElement::IntElement(int v)
 
 /**
  *  \brief Clone constructor
- *  \param [in] i initial value for IntElement
+ *  \param [in] i const IntElement& initial value for IntElement
  * */
 IntElement::IntElement(const IntElement& i)
 {
@@ -45,7 +45,7 @@ IntElement::~IntElement() = default;
 
 /**
  *  \brief Getter method
- *  \return Return value of IntElement
+ *  \return int value of IntElement
  */
 int IntElement::getVal() const
 {
@@ -54,8 +54,7 @@ int IntElement::getVal() const
 
 /**
  *  \brief Brief Setter method
- *  
- *  \param [in] v value for IntElement
+ *  \param [in] v int value for IntElement
  */
 void IntElement::setVal(int v)
 {
@@ -64,8 +63,8 @@ void IntElement::setVal(int v)
 
 /**
  *  \brief Addition assignment. Performs addition by adding right-hand side into left-hand side of equation
- *  \param [in] i Value to be added
- *  \return Reference to left-hand side IntElement added by i
+ *  \param [in] i const IntElement@ value to be added
+ *  \return Reference to left-hand side IntElement object added by i
  */
 IntElement& IntElement::operator+=(const IntElement& i)
 {
@@ -75,8 +74,8 @@ IntElement& IntElement::operator+=(const IntElement& i)
 
 /**
  *  \brief Substraction assignment. Performs substraction by substracting right-hand side into left-hand side of equation
- *  \param [in] i Value to be substracted
- *  \return Reference to left-hand side IntElement substracted by i
+ *  \param [in] i const IntElement@ value to be substracted
+ *  \return Reference to left-hand side IntElement object substracted by i
  */
 IntElement& IntElement::operator-=(const IntElement& i)
 {
@@ -86,8 +85,8 @@ IntElement& IntElement::operator-=(const IntElement& i)
 
 /**
  *  \brief Multiplication assignment. Performs multiplication by multiplying right-hand side into left-hand side of equation
- *  \param [in] i Value to be multiplied
- *  \return Reference to left-hand side IntElement multiplied by i
+ *  \param [in] i const IntElement@ value to be multiplied
+ *  \return Reference to left-hand side IntElement object multiplied by i
  */
 IntElement& IntElement::operator*=(const IntElement& i)
 {
@@ -97,8 +96,8 @@ IntElement& IntElement::operator*=(const IntElement& i)
 
 /**
  *  \brief Addition. Performs addition by adding a and b
- *  \param [in] a Value a
- *  \param [in] b Value b
+ *  \param [in] a const IntElement@ value a
+ *  \param [in] b const IntElement@ value b
  *  \return Sum of a and b
  */
 IntElement operator+(const IntElement& a, const IntElement& b)
@@ -110,8 +109,8 @@ IntElement operator+(const IntElement& a, const IntElement& b)
 
 /**
  *  \brief Substraction. Performs substraction by substracting a and b
- *  \param [in] a Value a
- *  \param [in] b Value b
+ *  \param [in] a const IntElement@ value a
+ *  \param [in] b const IntElement@ value b
  *  \return Substraction of a and b
  */
 IntElement operator-(const IntElement& a, const IntElement& b)
@@ -123,8 +122,8 @@ IntElement operator-(const IntElement& a, const IntElement& b)
 
 /**
  *  \brief Multiplication. Performs multiplication by multiplying a and b
- *  \param [in] a value
- *  \param [in] b value
+ *  \param [in] a const IntElement@ value a
+ *  \param [in] b const IntElement@ value b
  *  \return Multiplication of a and b
  */
 IntElement operator*(const IntElement& a, const IntElement& b)
@@ -136,9 +135,9 @@ IntElement operator*(const IntElement& a, const IntElement& b)
 
 /**
  *  \brief Write object to stream
- *  \param [in] o output stream
- *  \param [in] v value to be streamed
- *  \return stream appended by object
+ *  \param [in,out] o std::ostream& output stream
+ *  \param [in] v const IntElement& value to be streamed
+ *  \return std::ostream reference appended by object
  */
 std::ostream& operator<<(std::ostream& o, const IntElement& v)
 {
@@ -148,8 +147,8 @@ std::ostream& operator<<(std::ostream& o, const IntElement& v)
 
 /**
  *  \brief Overload of equal comparison
- *  \param [in] a value
- *  \param [in] b value for comparison
+ *  \param [in] a const IntElement& value
+ *  \param [in] b const IntElement& value for comparison
  *  \return true if a == b
  */
 bool operator==(const IntElement& a, const IntElement& b)
