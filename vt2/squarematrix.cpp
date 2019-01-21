@@ -3,6 +3,9 @@
 
 /**
  *  @file squarematrix.cpp
+ *  @brief Implementation of SquareMatrix
+ *  */
+/**
  *  @class SquareMatrix
  *  @version 1.0
  *  @brief Implementation for 2x2 dimensional SquareMatrix 
@@ -76,7 +79,7 @@ std::string SquareMatrix::toString() const
 
 /**
  *  \brief Addition assignment. Performs matrix addition by adding right-hand side into left-hand side of equation
- *  \param [in] SquareMatrix i
+ *  \param [in] i SquareMatrix
  *  \return Reference to left-hand side matrix added by i
  */
 SquareMatrix& SquareMatrix::operator+=(const SquareMatrix& i)
@@ -90,7 +93,7 @@ SquareMatrix& SquareMatrix::operator+=(const SquareMatrix& i)
 
  /**
  *  \brief Substraction assignment. Performs matrix substraction by substracting right-hand side from the left-hand side of equation
- *  \param [in] SquareMatrix i
+ *  \param [in] i SquareMatrix
  *  \return Reference to left-hand side matrix substracted by i
  */
 SquareMatrix& SquareMatrix::operator-=(const SquareMatrix& i)
@@ -104,7 +107,7 @@ SquareMatrix& SquareMatrix::operator-=(const SquareMatrix& i)
 
 /**
  *  \brief Multiplication assignment. Performs matrix dot product by multiplying right-hand side into left-hand side of equation
- *  \param [in] SquareMatrix i
+ *  \param [in] i SquareMatrix
  *  \return Reference to left-hand side matrix multiplied by i
  */
 SquareMatrix& SquareMatrix::operator*=(const SquareMatrix& i)
@@ -121,8 +124,8 @@ SquareMatrix& SquareMatrix::operator*=(const SquareMatrix& i)
 
 /**
  *  \brief Addition. Performs matrix addition by adding a and b
- *  \param [in] SquareMatrix a
- *  \param [in] SquareMatrix b
+ *  \param [in] a SquareMatrix
+ *  \param [in] b SquareMatrix
  *  \return Addition of a and b
  */
 SquareMatrix operator+(const SquareMatrix& a, const SquareMatrix& b)
@@ -134,8 +137,8 @@ SquareMatrix operator+(const SquareMatrix& a, const SquareMatrix& b)
 
 /**
  *  \brief Substraction. Performs matrix substraction by substracting b from a
- *  \param [in] SquareMatrix a
- *  \param [in] SquareMatrix b
+ *  \param [in] a SquareMatrix
+ *  \param [in] b SquareMatrix
  *  \return Substraction of a and b
  */
 SquareMatrix operator-(const SquareMatrix& a, const SquareMatrix& b)
@@ -147,8 +150,8 @@ SquareMatrix operator-(const SquareMatrix& a, const SquareMatrix& b)
 
 /**
  *  \brief Multiplication. Performs matrix dot-product by multiplying a and b
- *  \param [in] SquareMatrix a
- *  \param [in] SquareMatrix b
+ *  \param [in] a SquareMatrix
+ *  \param [in] b SquareMatrix
  *  \return Dot-product of a and b
  */
 SquareMatrix operator*(const SquareMatrix& a, const SquareMatrix& b)
@@ -160,7 +163,7 @@ SquareMatrix operator*(const SquareMatrix& a, const SquareMatrix& b)
 
 /**
  *  \brief Write object to stream in form of [[<i_{11}>,<i_{12}>][<i_{21}>,<i_{22}>]]
- *  \param [in/out] stream
+ *  \param [in] stream
  *  \param [in] m 
  *  \return stream appended by object
  */
@@ -172,8 +175,8 @@ std::ostream& operator<<(std::ostream& stream, const SquareMatrix& m)
 
 /**
  *  \brief Overload of equal comparison
- *  \param [in] a SquareMatrix a
- *  \param [in] b SquareMatrix b
+ *  \param [in] a SquareMatrix
+ *  \param [in] b SquareMatrix
  *  \return true if a == b
  */
 bool operator==(const SquareMatrix& a, const SquareMatrix& b)

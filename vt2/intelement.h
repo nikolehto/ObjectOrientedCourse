@@ -5,11 +5,11 @@
 #include "catch.hpp"
 
 /**
- *  @file intelement.h
- *  @version 1.0
- *  @brief Declaration of IntElement
- *  @author Niko Lehto
- *  */
+ * @file intelement.h
+ * @version 1.0
+ * @brief Declaration of IntElement
+ * @author Niko Lehto
+ */
 
 class IntElement
 {
@@ -31,6 +31,6 @@ public:
 	friend IntElement operator+(const IntElement& a, const IntElement& b);
 	friend IntElement operator-(const IntElement& a, const IntElement& b);
 	friend IntElement operator*(const IntElement& a, const IntElement& b);
-	friend std::ostream& operator<<(std::ostream& a, const IntElement& b);
+	friend std::ostream& operator<<(std::ostream& o, const IntElement& v);
 };
 #endif

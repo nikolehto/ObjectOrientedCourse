@@ -3,10 +3,13 @@
 
 /**
  *  @file intelement.cpp
+ *  @brief Implementation of IntElement
+ *  */
+/**
+ *  @class IntElement
  *  @version 1.0
  *  @brief Int-type value holder for Matrix
  *  @author Niko Lehto
- *  @class IntElement
  *  */
 
 /**
@@ -133,7 +136,7 @@ IntElement operator*(const IntElement& a, const IntElement& b)
 
 /**
  *  \brief Write object to stream
- *  \param [in/out] o output stream
+ *  \param [in] o output stream
  *  \param [in] v value to be streamed
  *  \return stream appended by object
  */
