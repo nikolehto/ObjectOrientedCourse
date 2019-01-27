@@ -225,10 +225,10 @@ SquareMatrix& SquareMatrix::operator+=(const SquareMatrix& i)
     }
 
     auto row_i = i.elements.begin();
-    for(auto row_this : this->elements)
+    for(auto& row_this : this->elements)
     {
         auto elem_i = row_i->begin();
-        for(auto elem_this : row_this)
+        for(auto& elem_this : row_this)
         {
             elem_this += *elem_i;
             std::cout << "DEBUG: " << elem_this;
@@ -253,10 +253,10 @@ SquareMatrix& SquareMatrix::operator-=(const SquareMatrix& i)
     }
 
     auto row_i = i.elements.begin();
-    for(auto row_this : this->elements)
+    for(auto& row_this : this->elements)
     {
         auto elem_i = row_i->begin();
-        for(auto elem_this : row_this)
+        for(auto& elem_this : row_this)
         {
             elem_this -= *elem_i;
             elem_i++;

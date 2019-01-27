@@ -42,7 +42,7 @@ TEST_CASE("SquareMatrix 2x2", "[SquareMatrix]") {
 	a -= b;
 
 	REQUIRE(a == clone_constructed_a);
-
+    // this fails DEBUG
 	a *= b;
 
 	REQUIRE(a == result3);
