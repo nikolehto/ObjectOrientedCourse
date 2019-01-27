@@ -41,10 +41,11 @@ IntElement::IntElement(const IntElement& i)
 IntElement::IntElement(const std::string& number)
 {
 	size_t idx = 0;
+    int value;
 
 	try
 	{
-		std::stoi(number, &idx);
+		value = std::stoi(number, &idx);
 	}
 	catch (const std::invalid_argument nn)
 	{
@@ -56,6 +57,8 @@ IntElement::IntElement(const std::string& number)
 	{
 		throw std::invalid_argument( "Element not an integer, or it contains character" );
 	}
+
+	this->intelement = value;
 }
 
 /**

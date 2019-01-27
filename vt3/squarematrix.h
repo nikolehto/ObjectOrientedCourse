@@ -27,7 +27,7 @@ public:
 
 	void print(std::ostream& os) const;
 	std::string toString() const;
-	SquareMatrix& transpose() const;
+	SquareMatrix transpose() const;
 
 	bool operator==(const SquareMatrix& m) const;
 	SquareMatrix& operator=(const SquareMatrix& m);

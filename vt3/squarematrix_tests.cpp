@@ -95,7 +95,7 @@ TEST_CASE("SquareMatrix String constructor", "[SquareMatrix2]")
 
 	invalids.push_back(TestContainer("[[1.1,2,+0.31][-13,-1.4,6.01][5.11,.5,-.7]]", "Element not an integer, or it contains character"));
 
-	invalids.push_back(TestContainer("a[2]]", "Illegal character in matrix:"));
+	invalids.push_back(TestContainer("a[2]]", "Illegal character in matrix"));
 
 	invalids.push_back(TestContainer("[[]]", "Too few characters to be a Matrix"));
 

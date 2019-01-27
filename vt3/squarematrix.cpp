@@ -1,5 +1,6 @@
 #include "squarematrix.h"
 #include "catch.hpp"
+#include <iostream> // DEBUG
 
 /**
  *  @file squarematrix.cpp
@@ -122,7 +123,11 @@ void SquareMatrix::fromString(const std::string& matrix)
 			}
 
             // Try to initialize as IntElement
-			temp.push_back(IntElement(matrix.substr(elem_start_idx, elem_end_idx - elem_start_idx)));
+            const std::string token(matrix.substr(elem_start_idx, elem_end_idx - elem_start_idx));
+			temp.push_back(IntElement(token));
+            std::cout << "\n DEBUG: Intelement returned ";
+            std::cout << temp.back();
+            std::cout << "\n was " << matrix.substr(elem_start_idx, elem_end_idx - elem_start_idx);
 
 			current_column_dimension++;
 
@@ -148,6 +153,27 @@ void SquareMatrix::fromString(const std::string& matrix)
 	}
 
 	this->n = static_cast<int>(row_dimension);
+}
+
+/** \brief Make transpose of the matrix
+ * \return Reference into transpose of this matrix
+ */
+
+SquareMatrix SquareMatrix::transpose() const
+{
+    size_t t_n = this->elements.size();
+
+    SquareMatrix transpose(*this); // probably the quickest way - only for n*n
+
+    for(size_t x = 0; x < t_n; x++)
+    {
+        for(size_t y = 0; y < t_n; y++)
+        {
+            transpose.elements.at(y).at(x) = this->elements.at(x).at(y);
+        }
+    }
+
+    return transpose;
 }
 
 /**
@@ -205,6 +231,7 @@ SquareMatrix& SquareMatrix::operator+=(const SquareMatrix& i)
         for(auto elem_this : row_this)
         {
             elem_this += *elem_i;
+            std::cout << "DEBUG: " << elem_this;
             elem_i++;
         }
         row_i++;
@@ -247,33 +274,27 @@ SquareMatrix& SquareMatrix::operator-=(const SquareMatrix& i)
  */
 SquareMatrix& SquareMatrix::operator*=(const SquareMatrix& i)
 {
-    /*
-	SquareMatrix temp(*this);
-
-	e11 = temp.e11 * i.e11 + temp.e12 * i.e21;
-	e12 = temp.e11 * i.e12 + temp.e12 * i.e22;
-	e21 = temp.e21 * i.e11 + temp.e22 * i.e21;
-	e22 = temp.e21 * i.e12 + temp.e22 * i.e22;
-
     if(this->n != i.n)
     {
         throw std::invalid_argument("operator requires same sized matrices");
     }
 
-    auto row_i = i.elements.begin();
-    for(auto row_this : this->elements)
-    {
-        auto elem_i = row_i->begin();
-        for(auto elem_this : row_this)
-        {
-            elem_this -= *elem_i;
-            elem_i++;
-        }
-        row_i++;
-    }
+	SquareMatrix temp = this->transpose();
 
-	return *this;
-	*/
+	size_t t_n = this->elements.size();
+
+    for(size_t in; in < t_n; in++)
+    {
+        for(size_t j; j < t_n; j++)
+        {
+            IntElement sum;
+            for(size_t x; x < t_n; x++)
+            {
+                sum += temp.elements.at(in).at(x) * i.elements.at(j).at(x);
+            }
+            this->elements.at(in).at(j) = sum;
+        }
+    }
 	return *this;
 }
 

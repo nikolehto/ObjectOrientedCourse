@@ -16,15 +16,15 @@ class IntElement
 private:
 	int intelement;
 
-public: 
+public:
 	IntElement();
-	IntElement(int v);
     IntElement(const std::string& number);
+	IntElement(int v);
 	IntElement(const IntElement& i);
 	~IntElement();
 	int getVal() const;
 	void setVal(int v);
-	
+
 	IntElement& operator+=(const IntElement& i);
 	IntElement& operator-=(const IntElement& i);
 	IntElement& operator*=(const IntElement& i);
