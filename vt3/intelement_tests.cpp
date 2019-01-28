@@ -13,6 +13,13 @@
 *  \return 0 if tests passes
 */
 TEST_CASE("IntElement", "[isValidInt]") {
+
+	REQUIRE_THROWS_WITH(IntElement("3,"), "Element not an integer, or it contains character");
+    REQUIRE_THROWS_WITH(IntElement(",3"), "Element starts with invalid character");
+    REQUIRE_THROWS_WITH(IntElement("++3"), "Element starts with invalid character");
+    REQUIRE_NOTHROW(IntElement("+3"));
+    REQUIRE_NOTHROW(IntElement("3"));
+
 	int a, b, result;
 	std::stringstream out_1, out_2;
 
@@ -20,6 +27,10 @@ TEST_CASE("IntElement", "[isValidInt]") {
 	b = 5;
 
 	IntElement aie(a), bie(b), result_ie(0), result2_ie(0);
+
+    IntElement saie("3");
+
+    REQUIRE(saie == a);
 
 	a += b;
 	aie += bie;

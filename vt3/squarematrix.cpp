@@ -125,10 +125,6 @@ void SquareMatrix::fromString(const std::string& matrix)
             // Try to initialize as IntElement
             const std::string token(matrix.substr(elem_start_idx, elem_end_idx - elem_start_idx));
 			temp.push_back(IntElement(token));
-            std::cout << "\n DEBUG: Intelement returned ";
-            std::cout << temp.back();
-            std::cout << "\n was " << matrix.substr(elem_start_idx, elem_end_idx - elem_start_idx);
-
 			current_column_dimension++;
 
 			elem_start_idx = elem_end_idx + 1;
@@ -231,7 +227,6 @@ SquareMatrix& SquareMatrix::operator+=(const SquareMatrix& i)
         for(auto& elem_this : row_this)
         {
             elem_this += *elem_i;
-            std::cout << "DEBUG: " << elem_this;
             elem_i++;
         }
         row_i++;
@@ -279,18 +274,17 @@ SquareMatrix& SquareMatrix::operator*=(const SquareMatrix& i)
         throw std::invalid_argument("operator requires same sized matrices");
     }
 
-	SquareMatrix temp = this->transpose();
+	SquareMatrix temp = *this;
 
 	size_t t_n = this->elements.size();
-
-    for(size_t in; in < t_n; in++)
+    for(size_t in = 0; in < t_n; in++)
     {
-        for(size_t j; j < t_n; j++)
+        for(size_t j = 0; j < t_n; j++)
         {
             IntElement sum;
-            for(size_t x; x < t_n; x++)
+            for(size_t x = 0; x < t_n; x++)
             {
-                sum += temp.elements.at(in).at(x) * i.elements.at(j).at(x);
+                sum += temp.elements.at(in).at(x) * i.elements.at(x).at(j);
             }
             this->elements.at(in).at(j) = sum;
         }
@@ -346,8 +340,28 @@ SquareMatrix operator*(const SquareMatrix& a, const SquareMatrix& b)
 std::ostream& operator<<(std::ostream& stream, const SquareMatrix& m)
 {
 	stream << "[";
+    for(auto element : m.elements)
+    {
+        stream << "[";
+        for(size_t ind = 0; ind < element.size(); ind++)
+        {
+            if(ind != element.size() - 1)
+            {
+                stream << element.at(ind) << ",";
+            }
+            else
+            {
+                stream << element.at(ind);
+            }
+        }
+        stream << "]";
+    }
+    stream << "]";
 
-	std::for_each(m.elements.begin(), m.elements.end(),
+    return stream;
+
+    /* ',\b' remains in stream
+ 	std::for_each(m.elements.begin(), m.elements.end(),
         [&stream](std::vector<IntElement> v)
     {
         stream << "[";
@@ -361,6 +375,7 @@ std::ostream& operator<<(std::ostream& stream, const SquareMatrix& m)
 
     stream << "]";
 	return stream;
+	*/
 }
 
 /**
