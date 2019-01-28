@@ -1,6 +1,5 @@
 #include "squarematrix.h"
 #include "catch.hpp"
-#include <iostream> // DEBUG
 
 /**
  *  @file squarematrix.cpp
@@ -46,7 +45,7 @@ SquareMatrix::~SquareMatrix() = default;
 
 /**
  *  \brief Saves a matrix from string of the form [[a<SUB>11</SUB>,...,a<SUB>1n</SUB>]...[a<SUB>n1</SUB>,...,a<SUB>nn</SUB>]]
- *  \param [in] s const std::string% string presentation of matrix in form '[[a<SUB>11</SUB>,...,<SUB>a1n</SUB>]...[a<SUB>n1</SUB>,...,<SUB>ann</SUB>]]' where in element: e<SUB>ij</SUB>, <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
+ *  \param [in] matrix const std::string% string presentation of matrix in form '[[a<SUB>11</SUB>,...,<SUB>a1n</SUB>]...[a<SUB>n1</SUB>,...,<SUB>ann</SUB>]]' where in element: e<SUB>ij</SUB>, <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
 */
 void SquareMatrix::fromString(const std::string& matrix)
 {
@@ -57,8 +56,6 @@ void SquareMatrix::fromString(const std::string& matrix)
 	if (illegal_char != std::string::npos)
 	{
 	    throw std::invalid_argument("Illegal character in matrix: \"" + matrix.substr(illegal_char,1) + "\" ");
-		//std::cout << "Illegal character \n";
-		//return false;
 	}
 
 	if (len < 5) // 5 characters is shortest possible square matrix i.e. [[1]]
@@ -151,14 +148,14 @@ void SquareMatrix::fromString(const std::string& matrix)
 	this->n = static_cast<int>(row_dimension);
 }
 
-/** \brief Make transpose of the matrix
- * \return Reference into transpose of this matrix
+/**
+ *  \brief Make transpose of the matrix
+ * \return new matrix transposed
  */
 
 SquareMatrix SquareMatrix::transpose() const
 {
     size_t t_n = this->elements.size();
-
     SquareMatrix transpose(*this); // probably the quickest way - only for n*n
 
     for(size_t x = 0; x < t_n; x++)
@@ -359,30 +356,12 @@ std::ostream& operator<<(std::ostream& stream, const SquareMatrix& m)
     stream << "]";
 
     return stream;
-
-    /* ',\b' remains in stream
- 	std::for_each(m.elements.begin(), m.elements.end(),
-        [&stream](std::vector<IntElement> v)
-    {
-        stream << "[";
-        std::for_each(v.begin(), v.end(),
-            [&stream](IntElement a)
-        {
-            stream << a << ",";
-        });
-        stream << "\b]";
-    });
-
-    stream << "]";
-	return stream;
-	*/
 }
 
 /**
  *  \brief Overload of equal comparison
- *  \param [in] a const SquareMatrix& value
- *  \param [in] b const SquareMatrix& value for comparison
- *  \return bool true if a == b
+ *  \param [in] m const SquareMatrix& value for comparison
+ *  \return bool true if this and m are identical
  */
 bool SquareMatrix::operator==(const SquareMatrix& m) const
 {

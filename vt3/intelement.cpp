@@ -5,6 +5,7 @@
  *  @file intelement.cpp
  *  @brief Implementation of IntElement
  *  */
+
 /**
  *  @class IntElement
  *  @version 1.0
@@ -38,6 +39,10 @@ IntElement::IntElement(const IntElement& i)
 	intelement = i.getVal();
 }
 
+/**
+ *  \brief String constructor
+ *  \param [in] number const std::string& number as string
+ * */
 IntElement::IntElement(const std::string& number)
 {
 	size_t idx = 0;
@@ -170,11 +175,10 @@ std::ostream& operator<<(std::ostream& o, const IntElement& v)
 
 /**
  *  \brief Overload of equal comparison
- *  \param [in] a const IntElement& value
- *  \param [in] b const IntElement& value for comparison
- *  \return true if a == b
+ *  \param [in] i const IntElement& value
+ *  \return true if this and i are identical
  */
-bool operator==(const IntElement& a, const IntElement& b)
+bool IntElement::operator==(const IntElement& i) const
 {
-	return a.getVal() == b.getVal();
+	return this->getVal() == i.getVal();
 }

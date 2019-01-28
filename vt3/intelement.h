@@ -28,7 +28,8 @@ public:
 	IntElement& operator+=(const IntElement& i);
 	IntElement& operator-=(const IntElement& i);
 	IntElement& operator*=(const IntElement& i);
-	friend bool operator==(const IntElement& a, const IntElement& b);
+	bool operator==(const IntElement& i) const;
+
 	friend IntElement operator+(const IntElement& a, const IntElement& b);
 	friend IntElement operator-(const IntElement& a, const IntElement& b);
 	friend IntElement operator*(const IntElement& a, const IntElement& b);
