@@ -35,17 +35,7 @@ SquareMatrix::SquareMatrix(const std::string& s)
 
 SquareMatrix::SquareMatrix(const SquareMatrix& m)
 {
-    this->n = m.n;
-
-    for(auto&& row : m.elements)
-    {
-        std::vector<std::shared_ptr<IntElement>> temp;
-        for(auto&& elem : row)
-        {
-            temp.push_back(elem->clone());
-        }
-        this->elements.push_back(temp);
-    }
+    *this = m;
 }
 
 /**
@@ -58,22 +48,7 @@ SquareMatrix::SquareMatrix(SquareMatrix&& m)
     this->elements.swap(m.elements);
     this->n = m.n;
 }
-    /*
-    this->elements = m.elements;
-    this->n = m.n;
-    m.elements = 0;
-*/
-// = assignment for vector
- /*   vector&
-operator=(vector&& __x) // <-- Note double ampersands here
-{
-    // NB: DR 675.
-    this->clear();
-    this->swap(__x);
-    return *this;
-}
-}
-*/
+
 
 /**
  *  \brief Destructor
@@ -237,7 +212,8 @@ std::string SquareMatrix::toString() const
  */
 SquareMatrix& SquareMatrix::operator=(const SquareMatrix& m)
 {
-    n = m.n;
+    this->elements.clear();
+    this->n = m.n;
 
     for(auto&& row : m.elements)
     {
@@ -249,7 +225,7 @@ SquareMatrix& SquareMatrix::operator=(const SquareMatrix& m)
         this->elements.push_back(temp);
     }
 
-	return *this;
+    return *this;
 }
 
 /**

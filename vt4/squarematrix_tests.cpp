@@ -80,6 +80,12 @@ TEST_CASE("SquareMatrix little ones", "[SquareMatrix]") {
     REQUIRE_FALSE(a == c);
     REQUIRE_FALSE(a == b);
 
+    // re-assign test
+
+    a = SquareMatrix("[[1]]");
+
+    REQUIRE(a == SquareMatrix("[[1]]"));
+
 }
 
  /**
