@@ -35,7 +35,7 @@ SquareMatrix::SquareMatrix(const std::string& s)
 
 SquareMatrix::SquareMatrix(const SquareMatrix& m)
 {
-    n = m.n;
+    this->n = m.n;
 
     for(auto&& row : m.elements)
     {
@@ -49,7 +49,7 @@ SquareMatrix::SquareMatrix(const SquareMatrix& m)
 }
 
 /**
- *  \brief Clone constructor
+ *  \brief Move constructor
  *  \param [in] m const SquareMatrix&& object to clone
  */
 SquareMatrix::SquareMatrix(SquareMatrix&& m)
