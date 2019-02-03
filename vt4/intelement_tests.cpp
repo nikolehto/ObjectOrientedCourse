@@ -28,10 +28,10 @@ TEST_CASE("IntElement", "[isValidInt]") {
 
 	IntElement aie(a), bie(b), result_ie(0), result2_ie(0);
 
-    REQUIRE_NOTHROW(std::unique_ptr<IntElement>(aie.clone()));
+    REQUIRE_NOTHROW(std::shared_ptr<IntElement>(aie.clone()));
 
-    std::unique_ptr<IntElement> test_uniq_ptr(aie.clone());
-    REQUIRE(*test_uniq_ptr == aie);
+    std::shared_ptr<IntElement> test_ptr(aie.clone());
+    REQUIRE(*test_ptr == aie);
 
     IntElement saie("3");
 

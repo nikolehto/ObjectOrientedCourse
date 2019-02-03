@@ -2402,7 +2402,7 @@ namespace Catch {
     using exceptionTranslateFunction = std::string(*)();
 
     struct IExceptionTranslator;
-    using ExceptionTranslators = std::vector<std::unique_ptr<IExceptionTranslator const>>;
+    using ExceptionTranslators = std::vector<std::shared_ptr<IExceptionTranslator const>>;
 
     struct IExceptionTranslator {
         virtual ~IExceptionTranslator();
@@ -3184,7 +3184,7 @@ namespace Catch {
             virtual ~GeneratorBase();
             auto size() const -> size_t { return m_size; }
         };
-        using GeneratorBasePtr = std::unique_ptr<GeneratorBase>;
+        using GeneratorBasePtr = std::shared_ptr<GeneratorBase>;
 
     } // namespace Generators
 
@@ -3240,8 +3240,8 @@ namespace Generators {
     // !TBD move this into its own location?
     namespace pf{
         template<typename T, typename... Args>
-        std::unique_ptr<T> make_unique( Args&&... args ) {
-            return std::unique_ptr<T>(new T(std::forward<Args>(args)...));
+        std::shared_ptr<T> make_unique( Args&&... args ) {
+            return std::shared_ptr<T>(new T(std::forward<Args>(args)...));
         }
     }
 
@@ -3299,11 +3299,11 @@ namespace Generators {
 
     template<typename T>
     class Generator {
-        std::unique_ptr<IGenerator<T>> m_generator;
+        std::shared_ptr<IGenerator<T>> m_generator;
         size_t m_size;
 
     public:
-        Generator( size_t size, std::unique_ptr<IGenerator<T>> generator )
+        Generator( size_t size, std::shared_ptr<IGenerator<T>> generator )
         :   m_generator( std::move( generator ) ),
             m_size( size )
         {}
@@ -4022,7 +4022,7 @@ namespace Catch {
 }
 
 // end catch_interfaces_config.h
-// Libstdc++ doesn't like incomplete classes for unique_ptr
+// Libstdc++ doesn't like incomplete classes for shared_ptr
 
 #include <memory>
 #include <vector>
@@ -4121,7 +4121,7 @@ namespace Catch {
         IStream const* openStream();
         ConfigData m_data;
 
-        std::unique_ptr<IStream const> m_stream;
+        std::shared_ptr<IStream const> m_stream;
         TestSpec m_testSpec;
         bool m_hasTestFilters = false;
     };
@@ -4429,7 +4429,7 @@ namespace Catch {
 
         virtual bool isMulti() const;
     };
-    using IStreamingReporterPtr = std::unique_ptr<IStreamingReporter>;
+    using IStreamingReporterPtr = std::shared_ptr<IStreamingReporter>;
 
     struct IReporterFactory {
         virtual ~IReporterFactory();
@@ -4783,7 +4783,7 @@ namespace Catch {
         class ReporterFactory : public IReporterFactory {
 
             virtual IStreamingReporterPtr create( ReporterConfig const& config ) const override {
-                return std::unique_ptr<T>( new T( config ) );
+                return std::shared_ptr<T>( new T( config ) );
             }
 
             virtual std::string getDescription() const override {
@@ -4804,7 +4804,7 @@ namespace Catch {
         class ListenerFactory : public IReporterFactory {
 
             virtual IStreamingReporterPtr create( ReporterConfig const& config ) const override {
-                return std::unique_ptr<T>( new T( config ) );
+                return std::shared_ptr<T>( new T( config ) );
             }
             virtual std::string getDescription() const override {
                 return std::string();
@@ -4883,7 +4883,7 @@ namespace Catch {
     class TablePrinter;
 
     struct ConsoleReporter : StreamingReporterBase<ConsoleReporter> {
-        std::unique_ptr<TablePrinter> m_tablePrinter;
+        std::shared_ptr<TablePrinter> m_tablePrinter;
 
         ConsoleReporter(ReporterConfig const& config);
         ~ConsoleReporter() override;
@@ -8000,7 +8000,7 @@ namespace Catch {
         std::string tryTranslators() const;
 
     private:
-        std::vector<std::unique_ptr<IExceptionTranslator const>> m_translators;
+        std::vector<std::shared_ptr<IExceptionTranslator const>> m_translators;
     };
 }
 
@@ -8015,7 +8015,7 @@ namespace Catch {
     }
 
     void ExceptionTranslatorRegistry::registerTranslator( const IExceptionTranslator* translator ) {
-        m_translators.push_back( std::unique_ptr<const IExceptionTranslator>( translator ) );
+        m_translators.push_back( std::shared_ptr<const IExceptionTranslator>( translator ) );
     }
 
 #if !defined(CATCH_CONFIG_DISABLE_EXCEPTIONS)
@@ -10299,7 +10299,7 @@ namespace Catch {
                 return createReporter(config->getReporterName(), config);
             }
 
-            auto multi = std::unique_ptr<ListeningReporter>(new ListeningReporter);
+            auto multi = std::shared_ptr<ListeningReporter>(new ListeningReporter);
 
             auto const& listeners = Catch::getRegistryHub().getReporterRegistry().getListeners();
             for (auto const& listener : listeners) {
@@ -10672,7 +10672,7 @@ namespace Catch {
         ///////////////////////////////////////////////////////////////////////////
 
         class DebugOutStream : public IStream {
-            std::unique_ptr<StreamBufImpl<OutputDebugWriter>> m_streamBuf;
+            std::shared_ptr<StreamBufImpl<OutputDebugWriter>> m_streamBuf;
             mutable std::ostream m_os;
         public:
             DebugOutStream()
@@ -10705,13 +10705,13 @@ namespace Catch {
 
     // This class encapsulates the idea of a pool of ostringstreams that can be reused.
     struct StringStreams {
-        std::vector<std::unique_ptr<std::ostringstream>> m_streams;
+        std::vector<std::shared_ptr<std::ostringstream>> m_streams;
         std::vector<std::size_t> m_unused;
         std::ostringstream m_referenceStream; // Used for copy state/ flags from
 
         auto add() -> std::size_t {
             if( m_unused.empty() ) {
-                m_streams.push_back( std::unique_ptr<std::ostringstream>( new std::ostringstream ) );
+                m_streams.push_back( std::shared_ptr<std::ostringstream>( new std::ostringstream ) );
                 return m_streams.size()-1;
             }
             else {

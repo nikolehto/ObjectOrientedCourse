@@ -16,13 +16,14 @@ class SquareMatrix
 {
 private:
 	int n;
-	std::vector<std::vector<IntElement>> elements;
+	std::vector<std::vector<std::shared_ptr<IntElement>>> elements;
 	void fromString(const std::string& s);
 
 public:
 	SquareMatrix();
 	SquareMatrix(const std::string& s);
-	SquareMatrix(const SquareMatrix& m);
+    SquareMatrix(const SquareMatrix& m);
+	SquareMatrix(SquareMatrix&& m);
 	~SquareMatrix();
 
 	void print(std::ostream& os) const;
@@ -31,6 +32,7 @@ public:
 
 	bool operator==(const SquareMatrix& m) const;
 	SquareMatrix& operator=(const SquareMatrix& m);
+	SquareMatrix& operator=(SquareMatrix&& m);
 	SquareMatrix& operator+=(const SquareMatrix& m);
 	SquareMatrix& operator-=(const SquareMatrix& m);
 	SquareMatrix& operator*=(const SquareMatrix& m);

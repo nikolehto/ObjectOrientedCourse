@@ -23,7 +23,7 @@ public:
 	IntElement(const IntElement& i);
 	~IntElement();
 	int getVal() const;
-	std::unique_ptr<IntElement> clone() const;
+	std::shared_ptr<IntElement> clone() const;
 	void setVal(int v);
 
 

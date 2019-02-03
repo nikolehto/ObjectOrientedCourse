@@ -30,13 +30,50 @@ SquareMatrix::SquareMatrix(const std::string& s)
 
 /**
  *  \brief Clone constructor
- *  \param [in] i const SquareMatrix& object to clone
+ *  \param [in] m const SquareMatrix& object to clone
  */
-SquareMatrix::SquareMatrix(const SquareMatrix& i)
+
+SquareMatrix::SquareMatrix(const SquareMatrix& m)
 {
-    this->elements = i.elements;
-    this->n = i.n;
+    n = m.n;
+
+    for(auto&& row : m.elements)
+    {
+        std::vector<std::shared_ptr<IntElement>> temp;
+        for(auto&& elem : row)
+        {
+            temp.push_back(elem->clone());
+        }
+        this->elements.push_back(temp);
+    }
 }
+
+/**
+ *  \brief Clone constructor
+ *  \param [in] m const SquareMatrix&& object to clone
+ */
+SquareMatrix::SquareMatrix(SquareMatrix&& m)
+{
+    this->elements.clear();
+    this->elements.swap(m.elements);
+    this->n = m.n;
+}
+    /*
+    this->elements = m.elements;
+    this->n = m.n;
+    m.elements = 0;
+*/
+// = assignment for vector
+ /*   vector&
+operator=(vector&& __x) // <-- Note double ampersands here
+{
+    // NB: DR 675.
+    this->clear();
+    this->swap(__x);
+    return *this;
+}
+}
+*/
 
 /**
  *  \brief Destructor
@@ -81,7 +118,7 @@ void SquareMatrix::fromString(const std::string& matrix)
 	size_t column_dimension = 0;
 	while(!matrix_ends)
 	{
-        std::vector<IntElement> temp;
+        std::vector<std::shared_ptr<IntElement>> temp;
 		// find end of new row
 		row_end_idx = matrix.find("][", row_start_idx);
 
@@ -121,7 +158,7 @@ void SquareMatrix::fromString(const std::string& matrix)
 
             // Try to initialize as IntElement
             const std::string token(matrix.substr(elem_start_idx, elem_end_idx - elem_start_idx));
-			temp.push_back(IntElement(token));
+			temp.push_back(std::shared_ptr<IntElement>(new IntElement(token))); //  emplace call // TODO check that does not call copy constructor
 			current_column_dimension++;
 
 			elem_start_idx = elem_end_idx + 1;
@@ -137,7 +174,7 @@ void SquareMatrix::fromString(const std::string& matrix)
 		    throw std::invalid_argument("All columns did not have same dimension ");
 		}
 		row_start_idx = row_end_idx + 2;
-        this->elements.push_back(temp);
+		this->elements.push_back(temp);
 	}
 
 	if (row_dimension != column_dimension)
@@ -162,7 +199,7 @@ SquareMatrix SquareMatrix::transpose() const
     {
         for(size_t y = 0; y < t_n; y++)
         {
-            transpose.elements.at(y).at(x) = this->elements.at(x).at(y);
+            transpose.elements.at(y).at(x) = this->elements.at(x).at(y)->clone();
         }
     }
 
@@ -198,11 +235,35 @@ std::string SquareMatrix::toString() const
  *  \param [in] i const SquareMatrix& i
  *  \return Reference to left-hand side matrix added by i
  */
-SquareMatrix& SquareMatrix::operator=(const SquareMatrix& i)
+SquareMatrix& SquareMatrix::operator=(const SquareMatrix& m)
 {
-    this->elements = i.elements;
-    this->n = i.n;
+    n = m.n;
+
+    for(auto&& row : m.elements)
+    {
+        std::vector<std::shared_ptr<IntElement>> temp;
+        for(auto&& elem : row)
+        {
+            temp.push_back(elem->clone());
+        }
+        this->elements.push_back(temp);
+    }
+
 	return *this;
+}
+
+/**
+ *  \brief Assignment
+ *  \param [in] i SquareMatrix&& i
+ *  \return Reference to left-hand side matrix added by i
+ */
+SquareMatrix& SquareMatrix::operator=(SquareMatrix&& m)
+{
+    this->elements.clear();
+    this->elements.swap(m.elements);
+    this->n = m.n;
+
+    return *this;
 }
 
 /**
@@ -217,13 +278,13 @@ SquareMatrix& SquareMatrix::operator+=(const SquareMatrix& i)
         throw std::invalid_argument("operator requires same sized matrices");
     }
 
-    auto row_i = i.elements.begin();
+    auto && row_i = i.elements.begin();
     for(auto& row_this : this->elements)
     {
-        auto elem_i = row_i->begin();
+        auto && elem_i = row_i->begin();
         for(auto& elem_this : row_this)
         {
-            elem_this += *elem_i;
+            *elem_this += **elem_i;
             elem_i++;
         }
         row_i++;
@@ -244,13 +305,13 @@ SquareMatrix& SquareMatrix::operator-=(const SquareMatrix& i)
         throw std::invalid_argument("operator requires same sized matrices");
     }
 
-    auto row_i = i.elements.begin();
+    auto && row_i = i.elements.begin();
     for(auto& row_this : this->elements)
     {
-        auto elem_i = row_i->begin();
+        auto && elem_i = row_i->begin();
         for(auto& elem_this : row_this)
         {
-            elem_this -= *elem_i;
+            *elem_this -= **elem_i;
             elem_i++;
         }
         row_i++;
@@ -281,9 +342,9 @@ SquareMatrix& SquareMatrix::operator*=(const SquareMatrix& i)
             IntElement sum;
             for(size_t x = 0; x < t_n; x++)
             {
-                sum += temp.elements.at(in).at(x) * i.elements.at(x).at(j);
+                sum += *temp.elements.at(in).at(x) * *i.elements.at(x).at(j);
             }
-            this->elements.at(in).at(j) = sum;
+            this->elements.at(in).at(j) = sum.clone();
         }
     }
 	return *this;
@@ -337,18 +398,18 @@ SquareMatrix operator*(const SquareMatrix& a, const SquareMatrix& b)
 std::ostream& operator<<(std::ostream& stream, const SquareMatrix& m)
 {
 	stream << "[";
-    for(auto element : m.elements)
+    for(auto& element : m.elements)
     {
         stream << "[";
         for(size_t ind = 0; ind < element.size(); ind++)
         {
             if(ind != element.size() - 1)
             {
-                stream << element.at(ind) << ",";
+                stream << *element.at(ind) << ",";
             }
             else
             {
-                stream << element.at(ind);
+                stream << *element.at(ind);
             }
         }
         stream << "]";
@@ -370,13 +431,13 @@ bool SquareMatrix::operator==(const SquareMatrix& m) const
         return false;
     }
 
-    auto row_m = m.elements.begin();
-    for(auto row_this : this->elements)
+    auto&& row_m = m.elements.begin();
+    for(auto& row_this : this->elements)
     {
-        auto elem_m = row_m->begin();
-        for(auto elem_this : row_this)
+        auto&& elem_m = row_m->begin();
+        for(auto& elem_this : row_this)
         {
-            if(elem_this == *elem_m)
+            if(*elem_this == **elem_m)
             {
             }
             else
