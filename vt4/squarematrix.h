@@ -5,10 +5,9 @@
 #include "catch.hpp"
 #include <sstream>
 
-
 /**
  * @file squarematrix.h
- * @version 2.0
+ * @version 2.5
  * @brief Declaration of SquareMatrix
  * @author Niko Lehto
  */

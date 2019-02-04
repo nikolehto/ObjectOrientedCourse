@@ -6,7 +6,7 @@
 
 /**
  * @file intelement.h
- * @version 1.0
+ * @version 2.5
  * @brief Declaration of IntElement
  * @author Niko Lehto
  */

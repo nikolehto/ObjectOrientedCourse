@@ -3,7 +3,7 @@
 
 /**
  *  @file intelement_tests.cpp
- *  @version 1.0
+ *  @version 2.5
  *  @brief Test Case for IntElement class
  *  @author Niko Lehto
  *  */

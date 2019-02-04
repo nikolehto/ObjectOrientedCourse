@@ -8,7 +8,7 @@
 
  /**
  *  @class SquareMatrix
- *  @version 2.0
+ *  @version 2.5
  *  @brief Implementation for nxn dimensional SquareMatrix
  *  @author Niko Lehto
  *  */
@@ -32,7 +32,6 @@ SquareMatrix::SquareMatrix(const std::string& s)
  *  \brief Clone constructor
  *  \param [in] m const SquareMatrix& object to clone
  */
-
 SquareMatrix::SquareMatrix(const SquareMatrix& m)
 {
     *this = m;
@@ -40,18 +39,16 @@ SquareMatrix::SquareMatrix(const SquareMatrix& m)
 
 /**
  *  \brief Move constructor
- *  \param [in] m const SquareMatrix&& object to clone
+ *  \param [in] m const SquareMatrix&& object contain values
  */
 SquareMatrix::SquareMatrix(SquareMatrix&& m)
 {
-    this->elements.clear();
-    this->elements.swap(m.elements);
-    this->n = m.n;
+    *this = m;
 }
 
 
 /**
- *  \brief Destructor
+ *  \brief Default destructor
  */
 SquareMatrix::~SquareMatrix() = default;
 
@@ -133,7 +130,7 @@ void SquareMatrix::fromString(const std::string& matrix)
 
             // Try to initialize as IntElement
             const std::string token(matrix.substr(elem_start_idx, elem_end_idx - elem_start_idx));
-			temp.push_back(std::shared_ptr<IntElement>(new IntElement(token))); //  emplace call // TODO check that does not call copy constructor
+			temp.push_back(std::shared_ptr<IntElement>(new IntElement(token)));
 			current_column_dimension++;
 
 			elem_start_idx = elem_end_idx + 1;
@@ -164,7 +161,6 @@ void SquareMatrix::fromString(const std::string& matrix)
  *  \brief Make transpose of the matrix
  * \return new matrix transposed
  */
-
 SquareMatrix SquareMatrix::transpose() const
 {
     size_t t_n = this->elements.size();
@@ -215,16 +211,15 @@ SquareMatrix& SquareMatrix::operator=(const SquareMatrix& m)
     this->elements.clear();
     this->n = m.n;
 
-    for(auto&& row : m.elements)
+    for(auto& row : m.elements)
     {
         std::vector<std::shared_ptr<IntElement>> temp;
-        for(auto&& elem : row)
+        for(auto& elem : row)
         {
             temp.push_back(elem->clone());
         }
         this->elements.push_back(temp);
     }
-
     return *this;
 }
 
@@ -235,10 +230,12 @@ SquareMatrix& SquareMatrix::operator=(const SquareMatrix& m)
  */
 SquareMatrix& SquareMatrix::operator=(SquareMatrix&& m)
 {
-    this->elements.clear();
-    this->elements.swap(m.elements);
-    this->n = m.n;
-
+    if(this != &m)
+    {
+        this->elements.clear();
+        this->elements.swap(m.elements);
+        this->n = m.n;
+    }
     return *this;
 }
 
@@ -381,11 +378,11 @@ std::ostream& operator<<(std::ostream& stream, const SquareMatrix& m)
         {
             if(ind != element.size() - 1)
             {
-                stream << *element.at(ind) << ",";
+                stream << *(element.at(ind)) << ",";
             }
             else
             {
-                stream << *element.at(ind);
+                stream << *(element.at(ind));
             }
         }
         stream << "]";
@@ -402,7 +399,7 @@ std::ostream& operator<<(std::ostream& stream, const SquareMatrix& m)
  */
 bool SquareMatrix::operator==(const SquareMatrix& m) const
 {
-    if(this->n != m.n)
+    if(this->n != m.n || this->elements.size() != m.elements.size())
     {
         return false;
     }
@@ -410,6 +407,11 @@ bool SquareMatrix::operator==(const SquareMatrix& m) const
     auto&& row_m = m.elements.begin();
     for(auto& row_this : this->elements)
     {
+        if(row_this.size() != row_m->size())
+        {
+            return false;
+        }
+
         auto&& elem_m = row_m->begin();
         for(auto& elem_this : row_this)
         {

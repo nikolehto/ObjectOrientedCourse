@@ -8,7 +8,7 @@
 
 /**
  *  @class IntElement
- *  @version 1.0
+ *  @version 2.5
  *  @brief Int-type value holder for Matrix
  *  @author Niko Lehto
  *  */
