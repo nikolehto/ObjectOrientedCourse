@@ -43,7 +43,7 @@ SquareMatrix::SquareMatrix(const SquareMatrix& m)
  */
 SquareMatrix::SquareMatrix(SquareMatrix&& m)
 {
-    *this = m;
+    *this = std::move(m);
 }
 
 
@@ -399,12 +399,38 @@ std::ostream& operator<<(std::ostream& stream, const SquareMatrix& m)
  */
 bool SquareMatrix::operator==(const SquareMatrix& m) const
 {
+    // std::cout << "\n" << this->n << m.n;
+    // std::cout << "\n" << this->elements.size() << m.elements.size();
     if(this->n != m.n || this->elements.size() != m.elements.size())
     {
         return false;
     }
 
-    auto&& row_m = m.elements.begin();
+    size_t t_n = this->elements.size();
+
+    for(size_t in = 0; in < t_n; in++)
+    {
+        if(this->elements.at(in).size() != m.elements.at(in).size())
+        {
+            return false;
+        }
+
+        for(size_t j = 0; j < t_n; j++)
+        {
+            if(*(this->elements.at(in).at(j)) == *(m.elements.at(in).at(j)))
+            {
+                // std::cout << "\n" << this->elements.at(in).at(j).use_count() << " " << m.elements.at(in).at(j).use_count();
+                // std::cout << "\n" << this->elements.at(in).at(j) << " " << m.elements.at(in).at(j);
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+    /*
+
     for(auto& row_this : this->elements)
     {
         if(row_this.size() != row_m->size())
@@ -417,6 +443,8 @@ bool SquareMatrix::operator==(const SquareMatrix& m) const
         {
             if(*elem_this == **elem_m)
             {
+                std::cout << "\n" << (*elem_this) << " " << (**elem_m);
+                std::cout << (*elem_this).use_count() << " " << (**elem_m).use_count();
             }
             else
             {
@@ -427,4 +455,5 @@ bool SquareMatrix::operator==(const SquareMatrix& m) const
         row_m++;
     }
     return true;
+    */
 }

@@ -4,6 +4,7 @@
 #include "intelement.h"
 #include "catch.hpp"
 #include <sstream>
+// #include <iostream> // DEBUG
 
 /**
  * @file squarematrix.h

@@ -26,7 +26,7 @@ TEST_CASE("SquareMatrix little ones", "[SquareMatrix]") {
 		, empty_constructed;
 
 	REQUIRE(a == clone_constructed_a);
-
+    REQUIRE(b == clone_constructed_b);
 	std::string a_string = "[[1,2][3,4]]";
 	std::string b_string = "[[2,3][4,5]]";
 	std::string result3_string = "[[10,13][22,29]]";
@@ -92,6 +92,22 @@ TEST_CASE("SquareMatrix little ones", "[SquareMatrix]") {
     } // The values of a should be deleted
 
     REQUIRE(!(a == SquareMatrix("[[1]]")));
+    // and they are
+
+    REQUIRE_NOTHROW(SquareMatrix(std::move(b)));
+    // pointers of b is now unreferenced but scope continues -> smart to not use them
+
+
+    // Full move test
+    SquareMatrix abc_old(c); // clone
+    REQUIRE(abc_old == c);
+
+    { // end scope
+        SquareMatrix abc_new(std::move(abc_old)); // move
+        REQUIRE(abc_new == c);
+    }
+
+    REQUIRE(!(abc_old == c));
 }
 
  /**
