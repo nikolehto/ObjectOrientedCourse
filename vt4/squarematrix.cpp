@@ -370,6 +370,10 @@ SquareMatrix operator*(const SquareMatrix& a, const SquareMatrix& b)
  */
 std::ostream& operator<<(std::ostream& stream, const SquareMatrix& m)
 {
+    if(m.elements.size() == 0)
+    {
+        return stream;
+    }
 	stream << "[";
     for(auto& element : m.elements)
     {
@@ -444,7 +448,7 @@ bool SquareMatrix::operator==(const SquareMatrix& m) const
             if(*elem_this == **elem_m)
             {
                 std::cout << "\n" << (*elem_this) << " " << (**elem_m);
-                std::cout << (*elem_this).use_count() << " " << (**elem_m).use_count();
+                std::cout << (*elem_file:///D:/Git/ooj-2019-104/vt4/doxygen/html/annotated.htmlthis).use_count() << " " << (**elem_m).use_count();
             }
             else
             {
