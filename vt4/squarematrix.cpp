@@ -203,11 +203,17 @@ std::string SquareMatrix::toString() const
 
 /**
  *  \brief Assignment
- *  \param [in] i const SquareMatrix& i
- *  \return Reference to left-hand side matrix added by i
+ *  \param [in] m const SquareMatrix&
+ *  \return Reference to copied right-hand side matrix
  */
 SquareMatrix& SquareMatrix::operator=(const SquareMatrix& m)
 {
+    // self assignment is dangerous since this -> clear()
+    if(this == &m)
+    {
+        return *this;
+    }
+
     this->elements.clear();
     this->n = m.n;
 
@@ -225,8 +231,8 @@ SquareMatrix& SquareMatrix::operator=(const SquareMatrix& m)
 
 /**
  *  \brief Assignment
- *  \param [in] i SquareMatrix&& i
- *  \return Reference to left-hand side matrix added by i
+ *  \param [in] m SquareMatrix&&
+ *  \return Reference to original right-hand side matrix
  */
 SquareMatrix& SquareMatrix::operator=(SquareMatrix&& m)
 {
@@ -433,31 +439,4 @@ bool SquareMatrix::operator==(const SquareMatrix& m) const
         }
     }
     return true;
-    /*
-
-    for(auto& row_this : this->elements)
-    {
-        if(row_this.size() != row_m->size())
-        {
-            return false;
-        }
-
-        auto&& elem_m = row_m->begin();
-        for(auto& elem_this : row_this)
-        {
-            if(*elem_this == **elem_m)
-            {
-                std::cout << "\n" << (*elem_this) << " " << (**elem_m);
-                std::cout << (*elem_file:///D:/Git/ooj-2019-104/vt4/doxygen/html/annotated.htmlthis).use_count() << " " << (**elem_m).use_count();
-            }
-            else
-            {
-                return false;
-            }
-            elem_m++;
-        }
-        row_m++;
-    }
-    return true;
-    */
 }

@@ -152,6 +152,21 @@ TEST_CASE("CopyNMoveConstructorsAndAssignments", "[COPYnASSIGN]")
     }
 
     REQUIRE(abcopy_old == c);
+
+    // self assignment test
+    c = SquareMatrix("[[1]]");
+    a = c;
+    c = c;
+    REQUIRE(c == a);
+
+    // self assignment test 2
+    c = SquareMatrix("[[1]]");
+    a = c;
+    {  // limit scope
+        c = std::move(c); // move
+    } // c could be empty if not correct handled
+
+    REQUIRE(c == a);
 }
 
 
