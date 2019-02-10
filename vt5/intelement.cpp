@@ -80,6 +80,23 @@ int IntElement::getVal() const
 	return intelement;
 }
 
+int IntElement::evaluate(const Valuation& v) const
+{
+    return this->getVal();
+}
+
+/**
+ *  \brief Write element to string
+ *  \return std::string object as a string
+ *  */
+std::string IntElement::toString() const
+{
+	std::stringstream result;
+	result << *this;
+	return result.str();
+}
+
+
 /**
  *  \brief Setter method
  *  \param [in] v int value for IntElement
@@ -93,10 +110,11 @@ void IntElement::setVal(int v)
  * \brief returns the pointer to a copy of this using smart pointer
  * \return shared_ptr containing value of intelement
  */
-std::shared_ptr<IntElement> IntElement::clone() const
+std::shared_ptr<Element> IntElement::clone() const
 {
-    return std::shared_ptr<IntElement>(new IntElement(intelement));
+    return std::shared_ptr<Element>(new IntElement(intelement));
 }
+
 
 /**
  *  \brief Addition assignment. Performs addition by adding right-hand side into left-hand side of equation

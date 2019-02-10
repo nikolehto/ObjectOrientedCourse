@@ -1,8 +1,8 @@
-#include "SymbolicSquareMatrix.h"
+#include "symbolicmatrix.h"
 #include "catch.hpp"
 
 /**
- *  @file SymbolicSquareMatrix.cpp
+ *  @file symbolicmatrix.cpp
  *  @brief Implementation of SymbolicSquareMatrix
  *  */
 
@@ -60,13 +60,6 @@ void SymbolicSquareMatrix::fromString(const std::string& matrix)
 {
 	size_t len = matrix.length();
 
-	// check char validity
-	size_t illegal_char = matrix.find_first_not_of("[]0123456789.,+-");
-	if (illegal_char != std::string::npos)
-	{
-	    throw std::invalid_argument("Illegal character in matrix: \"" + matrix.substr(illegal_char,1) + "\" ");
-	}
-
 	if (len < 5) // 5 characters is shortest possible square matrix i.e. [[1]]
 	{
 		throw std::invalid_argument("Too few characters to be a Matrix");
@@ -90,7 +83,7 @@ void SymbolicSquareMatrix::fromString(const std::string& matrix)
 	size_t column_dimension = 0;
 	while(!matrix_ends)
 	{
-        std::vector<std::shared_ptr<IntElement>> temp;
+        std::vector<std::shared_ptr<Element>> temp;
 		// find end of new row
 		row_end_idx = matrix.find("][", row_start_idx);
 
@@ -128,9 +121,19 @@ void SymbolicSquareMatrix::fromString(const std::string& matrix)
 				rowends = true;
 			}
 
-            // Try to initialize as IntElement
             const std::string token(matrix.substr(elem_start_idx, elem_end_idx - elem_start_idx));
-			temp.push_back(std::shared_ptr<IntElement>(new IntElement(token)));
+            std::shared_ptr<Element> elem_ptr = nullptr;
+            try
+            {// try initialize as VariableElement
+                elem_ptr = std::make_shared<VariableElement>(token);
+            }
+            catch (const std::invalid_argument nn)
+            {
+                // if throws, try initialize as IntElement - do not catch
+                elem_ptr = std::make_shared<IntElement>(token);
+            }
+
+			temp.push_back(std::move(elem_ptr));
 			current_column_dimension++;
 
 			elem_start_idx = elem_end_idx + 1;
@@ -219,7 +222,7 @@ SymbolicSquareMatrix& SymbolicSquareMatrix::operator=(const SymbolicSquareMatrix
 
     for(auto& row : m.elements)
     {
-        std::vector<std::shared_ptr<IntElement>> temp;
+        std::vector<std::shared_ptr<Element>> temp;
         for(auto& elem : row)
         {
             temp.push_back(elem->clone());
@@ -246,129 +249,6 @@ SymbolicSquareMatrix& SymbolicSquareMatrix::operator=(SymbolicSquareMatrix&& m)
 }
 
 /**
- *  \brief Addition assignment. Performs matrix addition by adding right-hand side into left-hand side of equation
- *  \param [in] i const SymbolicSquareMatrix& i
- *  \return Reference to left-hand side matrix added by i
- */
-SymbolicSquareMatrix& SymbolicSquareMatrix::operator+=(const SymbolicSquareMatrix& i)
-{
-    if(this->n != i.n)
-    {
-        throw std::invalid_argument("operator requires same sized matrices");
-    }
-
-    auto && row_i = i.elements.begin();
-    for(auto& row_this : this->elements)
-    {
-        auto && elem_i = row_i->begin();
-        for(auto& elem_this : row_this)
-        {
-            *elem_this += **elem_i;
-            elem_i++;
-        }
-        row_i++;
-    }
-
-	return *this;
-}
-
- /**
- *  \brief Substraction assignment. Performs matrix substraction by substracting right-hand side from the left-hand side of equation
- *  \param [in] i const SymbolicSquareMatrix& i
- *  \return Reference to left-hand side matrix substracted by i
- */
-SymbolicSquareMatrix& SymbolicSquareMatrix::operator-=(const SymbolicSquareMatrix& i)
-{
-    if(this->n != i.n)
-    {
-        throw std::invalid_argument("operator requires same sized matrices");
-    }
-
-    auto && row_i = i.elements.begin();
-    for(auto& row_this : this->elements)
-    {
-        auto && elem_i = row_i->begin();
-        for(auto& elem_this : row_this)
-        {
-            *elem_this -= **elem_i;
-            elem_i++;
-        }
-        row_i++;
-    }
-
-	return *this;
-}
-
-/**
- *  \brief Multiplication assignment. Performs matrix dot product by multiplying right-hand side into left-hand side of equation
- *  \param [in] i const SymbolicSquareMatrix& i
- *  \return Reference to left-hand side matrix multiplied by i
- */
-SymbolicSquareMatrix& SymbolicSquareMatrix::operator*=(const SymbolicSquareMatrix& i)
-{
-    if(this->n != i.n)
-    {
-        throw std::invalid_argument("operator requires same sized matrices");
-    }
-
-	SymbolicSquareMatrix temp = *this;
-
-	size_t t_n = this->elements.size();
-    for(size_t in = 0; in < t_n; in++)
-    {
-        for(size_t j = 0; j < t_n; j++)
-        {
-            IntElement sum;
-            for(size_t x = 0; x < t_n; x++)
-            {
-                sum += *temp.elements.at(in).at(x) * *i.elements.at(x).at(j);
-            }
-            this->elements.at(in).at(j) = sum.clone();
-        }
-    }
-	return *this;
-}
-
-/**
- *  \brief Addition. Performs matrix addition by adding a and b
- *  \param [in] a const SymbolicSquareMatrix&
- *  \param [in] b const SymbolicSquareMatrix&
- *  \return Addition of a and b
- */
-SymbolicSquareMatrix operator+(const SymbolicSquareMatrix& a, const SymbolicSquareMatrix& b)
-{
-	SymbolicSquareMatrix t_a(a);
-	t_a += b;
-	return t_a;
-}
-
-/**
- *  \brief Substraction. Performs matrix substraction by substracting b from a
- *  \param [in] a const SymbolicSquareMatrix&
- *  \param [in] b const SymbolicSquareMatrix&
- *  \return Substraction of a and b
- */
-SymbolicSquareMatrix operator-(const SymbolicSquareMatrix& a, const SymbolicSquareMatrix& b)
-{
-	SymbolicSquareMatrix t_a(a);
-	t_a -= b;
-	return t_a;
-}
-
-/**
- *  \brief Multiplication. Performs matrix dot-product by multiplying a and b
- *  \param [in] a const SymbolicSquareMatrix&
- *  \param [in] b const SymbolicSquareMatrix&
- *  \return Dot-product of a and b
- */
-SymbolicSquareMatrix operator*(const SymbolicSquareMatrix& a, const SymbolicSquareMatrix& b)
-{
-	SymbolicSquareMatrix t_a(a);
-	t_a *= b;
-	return t_a;
-}
-
-/**
  *  \brief Write object to stream in form of [[<i<SUB>11</SUB>>,<i<SUB>12</SUB>>][<i<SUB>21</SUB>>,<i<SUB>22</SUB>>]]
  *  \param [in,out] stream std::ostream&
  *  \param [in] m const SymbolicSquareMatrix& m
@@ -388,11 +268,11 @@ std::ostream& operator<<(std::ostream& stream, const SymbolicSquareMatrix& m)
         {
             if(ind != element.size() - 1)
             {
-                stream << *(element.at(ind)) << ",";
+                stream << *std::static_pointer_cast<VariableElement>(element.at(ind)) << ",";
             }
             else
             {
-                stream << *(element.at(ind));
+                stream << *std::static_pointer_cast<VariableElement>(element.at(ind));
             }
         }
         stream << "]";
@@ -427,7 +307,7 @@ bool SymbolicSquareMatrix::operator==(const SymbolicSquareMatrix& m) const
 
         for(size_t j = 0; j < t_n; j++)
         {
-            if(*(this->elements.at(in).at(j)) == *(m.elements.at(in).at(j)))
+            if(*std::static_pointer_cast<VariableElement>(this->elements.at(in).at(j)) == *std::static_pointer_cast<VariableElement>(m.elements.at(in).at(j)))
             {
                 // std::cout << "\n" << this->elements.at(in).at(j).use_count() << " " << m.elements.at(in).at(j).use_count();
                 // std::cout << "\n" << this->elements.at(in).at(j) << " " << m.elements.at(in).at(j);

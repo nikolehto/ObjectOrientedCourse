@@ -1,4 +1,4 @@
-#include "ConcreteSquareMatrix.h"
+#include "concretematrix.h"
 #include "catch.hpp"
 
 /**
@@ -170,7 +170,7 @@ ConcreteSquareMatrix ConcreteSquareMatrix::transpose() const
     {
         for(size_t y = 0; y < t_n; y++)
         {
-            transpose.elements.at(y).at(x) = this->elements.at(x).at(y)->clone();
+            transpose.elements.at(y).at(x) =std::static_pointer_cast<IntElement> (this->elements.at(x).at(y)->clone());
         }
     }
 
@@ -222,7 +222,8 @@ ConcreteSquareMatrix& ConcreteSquareMatrix::operator=(const ConcreteSquareMatrix
         std::vector<std::shared_ptr<IntElement>> temp;
         for(auto& elem : row)
         {
-            temp.push_back(elem->clone());
+            std::shared_ptr<IntElement> elem2 = std::static_pointer_cast<IntElement>(elem->clone());
+            temp.push_back(elem2);
         }
         this->elements.push_back(temp);
     }
@@ -323,7 +324,7 @@ ConcreteSquareMatrix& ConcreteSquareMatrix::operator*=(const ConcreteSquareMatri
             {
                 sum += *temp.elements.at(in).at(x) * *i.elements.at(x).at(j);
             }
-            this->elements.at(in).at(j) = sum.clone();
+            this->elements.at(in).at(j) = std::static_pointer_cast<IntElement>( sum.clone() );
         }
     }
 	return *this;

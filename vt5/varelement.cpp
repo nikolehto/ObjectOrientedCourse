@@ -1,8 +1,8 @@
 #include "catch.hpp"
-#include "VariableElement.h"
+#include "varelement.h"
 
 /**
- *  @file VariableElement.cpp
+ *  @file varelement.cpp
  *  @brief Implementation of VariableElement
  *  */
 
@@ -18,16 +18,16 @@
  * */
 VariableElement::VariableElement()
 {
-	VariableElement = 0;
+	var = 0;
 }
 
 /**
  *  \brief Parameterized constructor
- *  \param [in] v int initial value for VariableElement
+ *  \param [in] v char initial value for VariableElement
  * */
-VariableElement::VariableElement(int v)
+VariableElement::VariableElement(char v)
 {
-	VariableElement = v;
+	var = v;
 }
 
 /**
@@ -36,34 +36,23 @@ VariableElement::VariableElement(int v)
  * */
 VariableElement::VariableElement(const VariableElement& i)
 {
-	VariableElement = i.getVal();
+	var = i.getVal();
 }
 
 /**
  *  \brief String constructor
- *  \param [in] number const std::string& number as string
+ *  \param [in] symbol const std::string& symbol as string
  * */
-VariableElement::VariableElement(const std::string& number)
+VariableElement::VariableElement(const std::string& symbol)
 {
-	size_t idx = 0;
-    int value;
 
-	try
+    // check whether text contains one char otherwise it is an error
+	if (symbol.length() != 1)
 	{
-		value = std::stoi(number, &idx);
-	}
-	catch (const std::invalid_argument nn)
-	{
-		throw std::invalid_argument( "Element starts with invalid character" );
+		throw std::invalid_argument( "Element empty or not a char" );
 	}
 
-	// check whether whole text is valid integer, otherwise it is an error
-	if (idx != number.length())
-	{
-		throw std::invalid_argument( "Element not an integer, or it contains character" );
-	}
-
-	this->VariableElement = value;
+	var = symbol[0];
 }
 
 /**
@@ -73,101 +62,52 @@ VariableElement::~VariableElement() = default;
 
 /**
  *  \brief Getter method
- *  \return int value of VariableElement
+ *  \return char value of VariableElement
  */
-int VariableElement::getVal() const
+char VariableElement::getVal() const
 {
-	return VariableElement;
+	return var;
 }
 
 /**
  *  \brief Setter method
- *  \param [in] v int value for VariableElement
+ *  \param [in] v char value for VariableElement
  */
-void VariableElement::setVal(int v)
+void VariableElement::setVal(char v)
 {
-	VariableElement = v;
+	var = v;
+}
+
+int VariableElement::evaluate(const Valuation& v) const
+{
+    if (v.count(var))
+    {
+        return v.at(var);
+    }
+    else
+    {
+        throw std::invalid_argument( "Symbolic variable cannot be found from given Valuation v" );
+    }
+}
+
+/**
+ *  \brief Write element to string
+ *  \return std::string object as a string
+ *  */
+std::string VariableElement::toString() const
+{
+	std::stringstream result;
+	result << *this;
+	return result.str();
 }
 
 /**
  * \brief returns the pointer to a copy of this using smart pointer
  * \return shared_ptr containing value of VariableElement
  */
-std::shared_ptr<VariableElement> VariableElement::clone() const
+std::shared_ptr<Element> VariableElement::clone() const
 {
-    return std::shared_ptr<VariableElement>(new VariableElement(VariableElement));
-}
-
-/**
- *  \brief Addition assignment. Performs addition by adding right-hand side into left-hand side of equation
- *  \param [in] i const VariableElement@ value to be added
- *  \return Reference to left-hand side VariableElement object added by i
- */
-VariableElement& VariableElement::operator+=(const VariableElement& i)
-{
-	VariableElement = VariableElement + i.getVal();
-	return *this;
-}
-
-/**
- *  \brief Substraction assignment. Performs substraction by substracting right-hand side into left-hand side of equation
- *  \param [in] i const VariableElement@ value to be substracted
- *  \return Reference to left-hand side VariableElement object substracted by i
- */
-VariableElement& VariableElement::operator-=(const VariableElement& i)
-{
-	VariableElement = VariableElement - i.getVal();
-	return *this;
-}
-
-/**
- *  \brief Multiplication assignment. Performs multiplication by multiplying right-hand side into left-hand side of equation
- *  \param [in] i const VariableElement@ value to be multiplied
- *  \return Reference to left-hand side VariableElement object multiplied by i
- */
-VariableElement& VariableElement::operator*=(const VariableElement& i)
-{
-	VariableElement = VariableElement * i.getVal();
-	return *this;
-}
-
-/**
- *  \brief Addition. Performs addition by adding a and b
- *  \param [in] a const VariableElement@ value a
- *  \param [in] b const VariableElement@ value b
- *  \return Sum of a and b
- */
-VariableElement operator+(const VariableElement& a, const VariableElement& b)
-{
-	VariableElement t_a(a);
-	t_a += b;
-	return t_a;
-}
-
-/**
- *  \brief Substraction. Performs substraction by substracting a and b
- *  \param [in] a const VariableElement@ value a
- *  \param [in] b const VariableElement@ value b
- *  \return Substraction of a and b
- */
-VariableElement operator-(const VariableElement& a, const VariableElement& b)
-{
-	VariableElement t_a(a);
-	t_a -= b;
-	return t_a;
-}
-
-/**
- *  \brief Multiplication. Performs multiplication by multiplying a and b
- *  \param [in] a const VariableElement@ value a
- *  \param [in] b const VariableElement@ value b
- *  \return Multiplication of a and b
- */
-VariableElement operator*(const VariableElement& a, const VariableElement& b)
-{
-	VariableElement t_a(a);
-	t_a *= b;
-	return t_a;
+    return std::shared_ptr<Element>(new VariableElement(var));
 }
 
 /**
@@ -178,7 +118,7 @@ VariableElement operator*(const VariableElement& a, const VariableElement& b)
  */
 std::ostream& operator<<(std::ostream& o, const VariableElement& v)
 {
-	o << std::to_string(v.VariableElement);
+	o << std::to_string(v.var);
 	return o;
 }
 

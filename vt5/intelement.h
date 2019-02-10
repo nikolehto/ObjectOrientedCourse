@@ -3,6 +3,8 @@
 
 #include <sstream>
 #include "catch.hpp"
+#include "valuation.h"
+#include "element.h"
 
 /**
  * @file intelement.h
@@ -10,8 +12,7 @@
  * @brief Declaration of IntElement
  * @author Niko Lehto
  */
-
-class IntElement
+class IntElement : public Element
 {
 private:
 	int intelement;
@@ -23,9 +24,11 @@ public:
 	IntElement(const IntElement& i);
 	~IntElement();
 	int getVal() const;
-	std::shared_ptr<IntElement> clone() const;
-	void setVal(int v);
 
+	void setVal(int v);
+	int evaluate(const Valuation& v) const override;
+	std::shared_ptr<Element> clone() const override;
+	std::string toString() const override;
 
 	IntElement& operator+=(const IntElement& i);
 	IntElement& operator-=(const IntElement& i);

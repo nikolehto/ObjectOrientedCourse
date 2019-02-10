@@ -3,6 +3,8 @@
 
 #include <sstream>
 #include "catch.hpp"
+#include "valuation.h"
+#include "element.h"
 
 /**
  * @file VariableElement.h
@@ -11,30 +13,27 @@
  * @author Niko Lehto
  */
 
-class VariableElement
+class VariableElement : public Element
 {
 private:
-	int VariableElement;
+	char var;
 
 public:
 	VariableElement();
     VariableElement(const std::string& number);
-	VariableElement(int v);
+	VariableElement(char v);
 	VariableElement(const VariableElement& i);
 	~VariableElement();
-	int getVal() const;
-	std::shared_ptr<VariableElement> clone() const;
-	void setVal(int v);
 
+	int evaluate(const Valuation& v) const override;
+	std::shared_ptr<Element> clone() const override;
+	std::string toString() const override;
 
-	VariableElement& operator+=(const VariableElement& i);
-	VariableElement& operator-=(const VariableElement& i);
-	VariableElement& operator*=(const VariableElement& i);
+    char getVal() const;
+	void setVal(char v);
+
 	bool operator==(const VariableElement& i) const;
 
-	friend VariableElement operator+(const VariableElement& a, const VariableElement& b);
-	friend VariableElement operator-(const VariableElement& a, const VariableElement& b);
-	friend VariableElement operator*(const VariableElement& a, const VariableElement& b);
 	friend std::ostream& operator<<(std::ostream& o, const VariableElement& v);
 };
 #endif
