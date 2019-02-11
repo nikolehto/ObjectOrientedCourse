@@ -78,6 +78,11 @@ void VariableElement::setVal(char v)
 	var = v;
 }
 
+/**
+* \brief Evaluate variable with Valuation mapping v
+* \param [in] v const Valuation& contains symbol values
+* \return int corresponding symbol value
+*/
 int VariableElement::evaluate(const Valuation& v) const
 {
     if (v.count(var))

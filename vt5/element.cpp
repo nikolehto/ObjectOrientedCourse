@@ -13,6 +13,12 @@
  *  @author Niko Lehto
  *  */
 
+/**
+ *  \brief Write object to stream, calls overloaded toString function
+ *  \param [in,out] o std::ostream& output stream
+ *  \param [in] v const Element& value to be streamed
+ *  \return std::ostream reference appended by object
+ */
  std::ostream& operator<<(std::ostream& o, const Element& v)
  {
     o << v.toString();
