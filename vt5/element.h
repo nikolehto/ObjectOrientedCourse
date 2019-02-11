@@ -15,7 +15,7 @@
 class Element
 {
 public:
-    virtual ~Element() = 0;
+    virtual ~Element() {}
 
     virtual std::string toString() const = 0;
     virtual std::shared_ptr<Element> clone() const = 0;

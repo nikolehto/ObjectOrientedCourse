@@ -118,7 +118,7 @@ std::shared_ptr<Element> VariableElement::clone() const
  */
 std::ostream& operator<<(std::ostream& o, const VariableElement& v)
 {
-	o << std::to_string(v.var);
+	o << v.var;
 	return o;
 }
 

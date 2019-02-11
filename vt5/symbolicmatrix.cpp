@@ -124,13 +124,13 @@ void SymbolicSquareMatrix::fromString(const std::string& matrix)
             const std::string token(matrix.substr(elem_start_idx, elem_end_idx - elem_start_idx));
             std::shared_ptr<Element> elem_ptr = nullptr;
             try
-            {// try initialize as VariableElement
-                elem_ptr = std::make_shared<VariableElement>(token);
+            {// try initialize as IntElement
+                elem_ptr = std::make_shared<IntElement>(token);
             }
             catch (const std::invalid_argument nn)
             {
-                // if throws, try initialize as IntElement - do not catch
-                elem_ptr = std::make_shared<IntElement>(token);
+                // if throws, try initialize as VariableElement - do not catch
+                elem_ptr = std::make_shared<VariableElement>(token);
             }
 
 			temp.push_back(std::move(elem_ptr));
@@ -268,11 +268,12 @@ std::ostream& operator<<(std::ostream& stream, const SymbolicSquareMatrix& m)
         {
             if(ind != element.size() - 1)
             {
-                stream << *std::static_pointer_cast<VariableElement>(element.at(ind)) << ",";
+                stream << element.at(ind)->toString() << ",";
             }
             else
             {
-                stream << *std::static_pointer_cast<VariableElement>(element.at(ind));
+                stream << element.at(ind)->toString();
+                //   stream << *std::static_pointer_cast<VariableElement>(element.at(ind));
             }
         }
         stream << "]";
@@ -292,11 +293,11 @@ ConcreteSquareMatrix SymbolicSquareMatrix::evaluate(const Valuation& v) const
     ConcreteSquareMatrix m;
     m.n = this->n;
 
-    for(int i = 0; i < this->n; i++)
+    for(size_t i = 0; i < this->elements.size(); i++)
     {
         std::vector<std::shared_ptr<IntElement>> temp;
 
-		for(int j = 0; i < this->n; j++)
+		for(size_t j = 0; j < this->elements.size(); j++)
 		{
 		    temp.push_back(std::shared_ptr<IntElement>( new IntElement(this->elements.at(i).at(j)->evaluate(v))));
 		}
@@ -324,11 +325,6 @@ bool SymbolicSquareMatrix::operator==(const SymbolicSquareMatrix& m) const
 
     for(size_t in = 0; in < t_n; in++)
     {
-        if(this->elements.at(in).size() != m.elements.at(in).size())
-        {
-            return false;
-        }
-
         for(size_t j = 0; j < t_n; j++)
         {
             if(*std::static_pointer_cast<VariableElement>(this->elements.at(in).at(j)) == *std::static_pointer_cast<VariableElement>(m.elements.at(in).at(j)))

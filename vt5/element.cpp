@@ -13,5 +13,3 @@
  *  @author Niko Lehto
  *  */
 
-
-Element::~Element() {}

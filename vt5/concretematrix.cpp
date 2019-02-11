@@ -410,8 +410,6 @@ std::ostream& operator<<(std::ostream& stream, const ConcreteSquareMatrix& m)
  */
 bool ConcreteSquareMatrix::operator==(const ConcreteSquareMatrix& m) const
 {
-    // std::cout << "\n" << this->n << m.n;
-    // std::cout << "\n" << this->elements.size() << m.elements.size();
     if(this->n != m.n || this->elements.size() != m.elements.size())
     {
         return false;
@@ -421,17 +419,10 @@ bool ConcreteSquareMatrix::operator==(const ConcreteSquareMatrix& m) const
 
     for(size_t in = 0; in < t_n; in++)
     {
-        if(this->elements.at(in).size() != m.elements.at(in).size())
-        {
-            return false;
-        }
-
         for(size_t j = 0; j < t_n; j++)
         {
             if(*(this->elements.at(in).at(j)) == *(m.elements.at(in).at(j)))
             {
-                // std::cout << "\n" << this->elements.at(in).at(j).use_count() << " " << m.elements.at(in).at(j).use_count();
-                // std::cout << "\n" << this->elements.at(in).at(j) << " " << m.elements.at(in).at(j);
             }
             else
             {
