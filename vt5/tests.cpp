@@ -260,7 +260,7 @@ TEST_CASE("SymbolicSquareMatrix little ones", "[ConcreteSquareMatrix]") {
 
     REQUIRE(concrete_d == evaluated_c);
 
-    REQUIRE_NOTHROW(e.evaluate(valuation)); // Actually throws DEBUG correct
+    REQUIRE_THROWS_WITH(e.evaluate(valuation), "Symbolic variable cannot be found from given Valuation v");
     // evaluate
 
 }
