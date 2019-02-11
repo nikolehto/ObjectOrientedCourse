@@ -17,7 +17,7 @@
 class ConcreteSquareMatrix
 {
 private:
-	int n;
+	unsigned int n;
 	std::vector<std::vector<std::shared_ptr<IntElement>>> elements;
 	void fromString(const std::string& s);
 

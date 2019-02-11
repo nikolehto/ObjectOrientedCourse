@@ -22,7 +22,7 @@ class ConcreteSquareMatrix;
 class SymbolicSquareMatrix
 {
 private:
-	int n;
+	unsigned int n;
 	std::vector<std::vector<std::shared_ptr<Element>>> elements;
 	void fromString(const std::string& s);
 

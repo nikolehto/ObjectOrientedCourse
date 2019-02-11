@@ -13,3 +13,8 @@
  *  @author Niko Lehto
  *  */
 
+ std::ostream& operator<<(std::ostream& o, const Element& v)
+ {
+    o << v.toString();
+    return o;
+ }

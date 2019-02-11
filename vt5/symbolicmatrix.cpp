@@ -157,7 +157,7 @@ void SymbolicSquareMatrix::fromString(const std::string& matrix)
 		throw std::invalid_argument("Not a square matrix. Found: " + std::to_string(row_dimension) + " X " + std::to_string(column_dimension) + "matrix");
 	}
 
-	this->n = static_cast<int>(row_dimension);
+	this->n = static_cast<unsigned int>(row_dimension);
 }
 
 /**

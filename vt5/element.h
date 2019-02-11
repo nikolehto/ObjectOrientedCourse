@@ -20,5 +20,7 @@ public:
     virtual std::string toString() const = 0;
     virtual std::shared_ptr<Element> clone() const = 0;
     virtual int evaluate(const Valuation&) const = 0;
+
+    friend std::ostream& operator<<(std::ostream& o, const Element& v);
 };
 #endif
