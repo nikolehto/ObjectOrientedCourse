@@ -177,8 +177,8 @@ IntElement operator-(const IntElement& a, const IntElement& b)
 
 /**
  *  \brief Multiplication. Performs multiplication by multiplying a and b
- *  \param [in] a const IntElement@ value a
- *  \param [in] b const IntElement@ value b
+ *  \param [in] a const IntElement& value a
+ *  \param [in] b const IntElement& value b
  *  \return Multiplication of a and b
  */
 IntElement operator*(const IntElement& a, const IntElement& b)
