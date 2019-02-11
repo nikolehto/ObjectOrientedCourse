@@ -2,7 +2,9 @@
 #define SYMBOLICSQUAREMATRIX_H
 
 #include "varelement.h"
+#include "valuation.h"
 #include "intelement.h"
+#include "concretematrix.h"
 #include "catch.hpp"
 #include <sstream>
 // #include <iostream> // DEBUG
@@ -13,6 +15,10 @@
  * @brief Declaration of SymbolicSquareMatrix
  * @author Niko Lehto
  */
+
+ // forward declaration
+class ConcreteSquareMatrix;
+
 class SymbolicSquareMatrix
 {
 private:
@@ -26,6 +32,8 @@ public:
     SymbolicSquareMatrix(const SymbolicSquareMatrix& m);
 	SymbolicSquareMatrix(SymbolicSquareMatrix&& m);
 	~SymbolicSquareMatrix();
+
+    ConcreteSquareMatrix evaluate(const Valuation& v) const;
 
 	void print(std::ostream& os) const;
 	std::string toString() const;

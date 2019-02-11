@@ -102,12 +102,12 @@ std::string VariableElement::toString() const
 }
 
 /**
- * \brief returns the pointer to a copy of this using smart pointer
+ * \brief returns the pointer to a copy of var
  * \return shared_ptr containing value of VariableElement
  */
 std::shared_ptr<Element> VariableElement::clone() const
 {
-    return std::shared_ptr<Element>(new VariableElement(var));
+    return std::shared_ptr<Element>(new VariableElement(*this));
 }
 
 /**

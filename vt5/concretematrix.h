@@ -2,7 +2,9 @@
 #define CONCRETESQUAREMATRIX_H
 
 #include "intelement.h"
+#include "valuation.h"
 #include "catch.hpp"
+#include "symbolicmatrix.h"
 #include <sstream>
 // #include <iostream> // DEBUG
 
@@ -40,5 +42,7 @@ public:
 	friend ConcreteSquareMatrix operator-(const ConcreteSquareMatrix& a, const ConcreteSquareMatrix& b);
 	friend ConcreteSquareMatrix operator*(const ConcreteSquareMatrix& a, const ConcreteSquareMatrix& b);
 	friend std::ostream& operator<<(std::ostream& stream, const ConcreteSquareMatrix& m);
+
+	friend class SymbolicSquareMatrix;
 };
 #endif

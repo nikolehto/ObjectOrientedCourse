@@ -283,6 +283,30 @@ std::ostream& operator<<(std::ostream& stream, const SymbolicSquareMatrix& m)
 }
 
 /**
+ *  \brief Evaluate symbolic matrix with Valuation
+ *  \param [in] v const Valuation& contains symbol values
+ *  \return ConcreteSquareMatrix containing corresponding values
+ */
+ConcreteSquareMatrix SymbolicSquareMatrix::evaluate(const Valuation& v) const
+{
+    ConcreteSquareMatrix m;
+    m.n = this->n;
+
+    for(int i = 0; i < this->n; i++)
+    {
+        std::vector<std::shared_ptr<IntElement>> temp;
+
+		for(int j = 0; i < this->n; j++)
+		{
+		    temp.push_back(std::shared_ptr<IntElement>( new IntElement(this->elements.at(i).at(j)->evaluate(v))));
+		}
+		m.elements.push_back(temp);
+	}
+
+    return m;
+}
+
+/**
  *  \brief Overload of equal comparison
  *  \param [in] m const SymbolicSquareMatrix& value for comparison
  *  \return bool true if this and m are identical

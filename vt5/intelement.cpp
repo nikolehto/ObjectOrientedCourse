@@ -112,7 +112,7 @@ void IntElement::setVal(int v)
  */
 std::shared_ptr<Element> IntElement::clone() const
 {
-    return std::shared_ptr<Element>(new IntElement(intelement));
+    return std::shared_ptr<Element>(new IntElement(*this));
 }
 
 

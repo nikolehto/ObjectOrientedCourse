@@ -25,9 +25,9 @@ public:
 	VariableElement(const VariableElement& i);
 	~VariableElement();
 
-	int evaluate(const Valuation& v) const override;
-	std::shared_ptr<Element> clone() const override;
-	std::string toString() const override;
+	virtual int evaluate(const Valuation& v) const;
+	virtual std::shared_ptr<Element> clone() const;
+	virtual std::string toString() const;
 
     char getVal() const;
 	void setVal(char v);
