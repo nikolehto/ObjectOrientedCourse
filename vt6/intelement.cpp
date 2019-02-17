@@ -217,7 +217,13 @@ bool IntElement::operator==(const IntElement& i) const
  */
 bool IntElement::operator==(const Element& i) const
 {
-    std::shared_ptr<IntElement> i_e = std::static_pointer_cast<IntElement>(i.clone());
-
-	return *this == *i_e;
+    std::shared_ptr<IntElement> i_e;
+    if(i_e = std::dynamic_pointer_cast<IntElement>(i.clone()))
+    {
+        return *this == *i_e;
+    }
+    else
+    {
+        return false;
+    }
 }

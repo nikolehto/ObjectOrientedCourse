@@ -364,7 +364,6 @@ std::ostream& operator<<(std::ostream& stream, const SymbolicSquareMatrix& m)
             else
             {
                 stream << element.at(ind)->toString();
-                //   stream << *std::static_pointer_cast<VariableElement>(element.at(ind));
             }
         }
         stream << "]";

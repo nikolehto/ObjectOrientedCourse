@@ -144,6 +144,14 @@ bool VariableElement::operator==(const VariableElement& v) const
  */
 bool VariableElement::operator==(const Element& v) const
 {
-    std::shared_ptr<VariableElement> v_e = std::static_pointer_cast<VariableElement>(v.clone());
-	return *this == *v_e;
+    std::shared_ptr<VariableElement> v_e;
+
+    if(v_e = std::dynamic_pointer_cast<VariableElement>(v.clone()))
+    {
+        return *this == *v_e;
+    }
+    else
+    {
+        return false;
+    }
 }

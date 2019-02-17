@@ -118,8 +118,17 @@ std::ostream& operator<<(std::ostream& o, const CompositeElement& e)
  */
 bool CompositeElement::operator==(const Element& e) const
 {
-    std::shared_ptr<CompositeElement> e_e = std::static_pointer_cast<CompositeElement>(e.clone());
-	return *this == *e_e;
+    std::shared_ptr<CompositeElement> e_e;
+
+    if(e_e = std::dynamic_pointer_cast<CompositeElement>(e.clone()))
+    {
+        return *this == *e_e;
+    }
+    else
+    {
+        return false;
+    }
+
 }
 
 /**
@@ -130,6 +139,7 @@ bool CompositeElement::operator==(const Element& e) const
  */
 bool CompositeElement::operator==(const CompositeElement& e) const
 {
+
 	if( *(this->opmd1) == *(e.opmd1))
      if( *(this->opmd2) == *(e.opmd2))
       if(this->op_ch == e.op_ch)
