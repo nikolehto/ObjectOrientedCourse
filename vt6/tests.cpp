@@ -261,7 +261,8 @@ TEST_CASE("SymbolicSquareMatrix little ones", "[ConcreteSquareMatrix]") {
         , b_string = "[[2,3][4,5]]"
         , c_string = "[[b,3,a][a,a,6][1,c,63]]"
         , d_string = "[[3,3,2][2,2,6][1,4,63]]"
-        , e_string = "[[a,e,f][1,2,3][1,2,33]]";
+        , e_string = "[[a,e,f][1,2,3][1,2,33]]"
+        , apb_string = "[[(1+2),(a+3)][(b+4),(4+5)]]";
 
 	SymbolicSquareMatrix a(a_string)
 		, b(b_string)
@@ -275,12 +276,14 @@ TEST_CASE("SymbolicSquareMatrix little ones", "[ConcreteSquareMatrix]") {
     REQUIRE(b == clone_constructed_b);
     REQUIRE(!(a == b));
 
-	std::stringstream out_1, out_2, out_3, out_4;
+	std::stringstream out_1, out_2, out_1p2, out_3, out_4;
 
 	out_1 << b;
 	out_2 << b_string;
+    out_1p2 << a + b;
 
 	REQUIRE(out_1.str() == out_2.str());
+	REQUIRE(out_1p2.str() == apb_string);
 
 	out_1.str("");
 	out_2.str("");

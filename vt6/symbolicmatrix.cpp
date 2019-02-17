@@ -245,6 +245,7 @@ SymbolicSquareMatrix& SymbolicSquareMatrix::operator=(SymbolicSquareMatrix&& m)
         this->elements.swap(m.elements);
         this->n = m.n;
     }
+
     return *this;
 }
 
@@ -266,17 +267,18 @@ SymbolicSquareMatrix SymbolicSquareMatrix::operator+(const SymbolicSquareMatrix&
     for(size_t x = 0; x < t_n; x++)
     {
         std::vector<std::shared_ptr<Element>> temp;
+        std::shared_ptr<Element> elem_ptr = nullptr;
         for(size_t y = 0; y < t_n; y++)
         {
-            std::shared_ptr<Element> elem_ptr = nullptr;
-
             elem_ptr = std::make_shared<CompositeElement>(*(this->elements.at(x).at(y)), *(m.elements.at(x).at(y)), std::plus<int>(), '+');
+            temp.push_back(elem_ptr);
             //*elem_this += **elem_i;
         }
 
         ssm.elements.push_back(temp);
     }
 
+    ssm.n = this->n;
 	return ssm;
 }
 
@@ -297,15 +299,18 @@ SymbolicSquareMatrix SymbolicSquareMatrix::operator-(const SymbolicSquareMatrix&
 
     for(size_t x = 0; x < t_n; x++)
     {
+        std::shared_ptr<Element> elem_ptr = nullptr;
         std::vector<std::shared_ptr<Element>> temp;
         for(size_t y = 0; y < t_n; y++)
         {
-            std::shared_ptr<Element> elem_ptr = std::make_shared<CompositeElement>(*(this->elements.at(x).at(y)), *(m.elements.at(x).at(y)), std::minus<int>(), '-');
+            elem_ptr = std::make_shared<CompositeElement>(*(this->elements.at(x).at(y)), *(m.elements.at(x).at(y)), std::minus<int>(), '-');
+            temp.push_back(elem_ptr);
         }
 
         ssm.elements.push_back(temp);
     }
 
+    ssm.n = this->n;
 	return ssm;
 }
 
@@ -326,16 +331,18 @@ SymbolicSquareMatrix SymbolicSquareMatrix::operator*(const SymbolicSquareMatrix&
 
     for(size_t x = 0; x < t_n; x++)
     {
+        std::shared_ptr<Element> elem_ptr = nullptr;
         std::vector<std::shared_ptr<Element>> temp;
         for(size_t y = 0; y < t_n; y++)
         {
-            std::shared_ptr<Element> elem_ptr = std::make_shared<CompositeElement>(*(this->elements.at(x).at(y)), *(m.elements.at(x).at(y)), std::multiplies<int>(), '*');
-            //*elem_this += **elem_i;
+            elem_ptr = std::make_shared<CompositeElement>(*(this->elements.at(x).at(y)), *(m.elements.at(x).at(y)), std::multiplies<int>(), '*');
+            temp.push_back(elem_ptr);
         }
 
         ssm.elements.push_back(temp);
     }
 
+    ssm.n = this->n;
 	return ssm;
 }
 
