@@ -25,7 +25,6 @@ public:
 	CompositeElement(const CompositeElement& e);
 	~CompositeElement();
 
-
 	CompositeElement& operator=(const CompositeElement& m);
     bool operator==(const CompositeElement& e) const;
 

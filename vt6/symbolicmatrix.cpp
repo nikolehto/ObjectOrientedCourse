@@ -249,6 +249,97 @@ SymbolicSquareMatrix& SymbolicSquareMatrix::operator=(SymbolicSquareMatrix&& m)
 }
 
 /**
+ *  \brief Performs matrix addition by summing right-hand side and left-hand side matrices
+ *  \param [in] i const SymbolicSquareMatrix& i
+ *  \return Reference to squarematrix sum of a and b
+ */
+SymbolicSquareMatrix SymbolicSquareMatrix::operator+(const SymbolicSquareMatrix& m) const
+{
+    if(this->n != m.n)
+    {
+        throw std::invalid_argument("operator requires same sized matrices");
+    }
+
+    SymbolicSquareMatrix ssm;
+    size_t t_n = this->elements.size();
+
+    for(size_t x = 0; x < t_n; x++)
+    {
+        std::vector<std::shared_ptr<Element>> temp;
+        for(size_t y = 0; y < t_n; y++)
+        {
+            std::shared_ptr<Element> elem_ptr = nullptr;
+
+            elem_ptr = std::make_shared<CompositeElement>(*(this->elements.at(x).at(y)), *(m.elements.at(x).at(y)), std::plus<int>(), '+');
+            //*elem_this += **elem_i;
+        }
+
+        ssm.elements.push_back(temp);
+    }
+
+	return ssm;
+}
+
+/**
+ *  \brief Performs matrix substraction of right-hand side and left-hand side matrices
+ *  \param [in] i const SymbolicSquareMatrix& i
+ *  \return Reference to squarematrix substraction of a and b
+ */
+SymbolicSquareMatrix SymbolicSquareMatrix::operator-(const SymbolicSquareMatrix& m) const
+{
+    if(this->n != m.n)
+    {
+        throw std::invalid_argument("operator requires same sized matrices");
+    }
+
+    SymbolicSquareMatrix ssm;
+    size_t t_n = this->elements.size();
+
+    for(size_t x = 0; x < t_n; x++)
+    {
+        std::vector<std::shared_ptr<Element>> temp;
+        for(size_t y = 0; y < t_n; y++)
+        {
+            std::shared_ptr<Element> elem_ptr = std::make_shared<CompositeElement>(*(this->elements.at(x).at(y)), *(m.elements.at(x).at(y)), std::minus<int>(), '-');
+        }
+
+        ssm.elements.push_back(temp);
+    }
+
+	return ssm;
+}
+
+/**
+ *  \brief Performs matrix multiplication of right-hand side and left-hand side matrices
+ *  \param [in] m const SymbolicSquareMatrix& m
+ *  \return Reference to squarematrix multiplication of a and b
+ */
+SymbolicSquareMatrix SymbolicSquareMatrix::operator*(const SymbolicSquareMatrix& m) const
+{
+    if(this->n != m.n)
+    {
+        throw std::invalid_argument("operator requires same sized matrices");
+    }
+
+    SymbolicSquareMatrix ssm;
+    size_t t_n = this->elements.size();
+
+    for(size_t x = 0; x < t_n; x++)
+    {
+        std::vector<std::shared_ptr<Element>> temp;
+        for(size_t y = 0; y < t_n; y++)
+        {
+            std::shared_ptr<Element> elem_ptr = std::make_shared<CompositeElement>(*(this->elements.at(x).at(y)), *(m.elements.at(x).at(y)), std::multiplies<int>(), '*');
+            //*elem_this += **elem_i;
+        }
+
+        ssm.elements.push_back(temp);
+    }
+
+	return ssm;
+}
+
+/**
  *  \brief Write object to stream in form of [[<i<SUB>11</SUB>>,<i<SUB>12</SUB>>][<i<SUB>21</SUB>>,<i<SUB>22</SUB>>]]
  *  \param [in,out] stream std::ostream&
  *  \param [in] m const SymbolicSquareMatrix& m

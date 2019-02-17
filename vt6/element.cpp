@@ -24,3 +24,16 @@
     o << v.toString();
     return o;
  }
+
+ /**
+ *  \brief Equality operator for two elements
+ *  \param [in] e1 const Element& left side
+ *  \param [in] e2 const Element& right side
+ *  \return true if e1 == e2
+ */
+ /*
+ bool operator == (const Element& e1, const Element& e2)
+ {
+     return e1.operator==(e2);
+ }
+ */

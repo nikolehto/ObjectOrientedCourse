@@ -23,5 +23,6 @@ public:
     virtual bool operator==(const Element& e) const = 0;
 
     friend std::ostream& operator<<(std::ostream& o, const Element& v);
+    // friend bool operator==(const Element& e1, const Element& e2);
 };
 #endif

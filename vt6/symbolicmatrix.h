@@ -5,6 +5,7 @@
 #include "valuation.h"
 #include "intelement.h"
 #include "concretematrix.h"
+#include "compositeelement.h"
 #include "catch.hpp"
 #include <sstream>
 // #include <iostream> // DEBUG
@@ -42,6 +43,10 @@ public:
 	bool operator==(const SymbolicSquareMatrix& m) const;
 	SymbolicSquareMatrix& operator=(const SymbolicSquareMatrix& m);
 	SymbolicSquareMatrix& operator=(SymbolicSquareMatrix&& m);
+
+	SymbolicSquareMatrix operator+(const SymbolicSquareMatrix& m) const;
+	SymbolicSquareMatrix operator-(const SymbolicSquareMatrix& m) const;
+	SymbolicSquareMatrix operator*(const SymbolicSquareMatrix& m) const;
 
 	friend std::ostream& operator<<(std::ostream& stream, const SymbolicSquareMatrix& m);
 };
