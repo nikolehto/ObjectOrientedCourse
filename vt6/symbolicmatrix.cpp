@@ -351,6 +351,7 @@ SymbolicSquareMatrix SymbolicSquareMatrix::operator*(const SymbolicSquareMatrix&
                 }
                 else
                 {
+                    sum_ptr = elem_ptr;
                     prev_ptr = elem_ptr;
                 }
             }

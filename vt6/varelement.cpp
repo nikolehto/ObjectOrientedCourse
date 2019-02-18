@@ -45,7 +45,6 @@ VariableElement::VariableElement(const VariableElement& i)
  * */
 VariableElement::VariableElement(const std::string& symbol)
 {
-
     // check whether text contains one char otherwise it is an error
 	if (symbol.length() != 1)
 	{

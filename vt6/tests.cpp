@@ -305,14 +305,21 @@ TEST_CASE("SymbolicSquareMatrix little ones", "[ConcreteSquareMatrix]") {
 		, clone_constructed_b(b)
 		, empty_constructed;
 
+    // test constructor
 	REQUIRE(a == clone_constructed_a);
     REQUIRE(b == clone_constructed_b);
     REQUIRE(!(a == b));
 
-
+    // test N != N
     REQUIRE_THROWS_WITH(a+c, "operator requires same sized matrices");
     REQUIRE_THROWS_WITH(a-c, "operator requires same sized matrices");
     REQUIRE_THROWS_WITH(a*c, "operator requires same sized matrices");
+
+    // test very 1x1 multiplication
+    SymbolicSquareMatrix sym3m("[[3]]"), sym2m("[[2]]");
+    std::stringstream tinymulti;
+    tinymulti << sym3m * sym2m;
+    REQUIRE("[[(3*2)]]" == tinymulti.str());
 
 	std::stringstream out_1, out_2, out_1p2, out_1m2, out_1M2;
 
