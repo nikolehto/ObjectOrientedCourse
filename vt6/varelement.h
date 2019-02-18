@@ -7,7 +7,7 @@
 #include "element.h"
 
 /**
- * @file VariableElement.h
+ * @file varelement.h
  * @version 2.5
  * @brief Declaration of VariableElement
  * @author Niko Lehto

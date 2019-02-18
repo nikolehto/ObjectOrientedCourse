@@ -101,7 +101,7 @@ std::shared_ptr<Element> CompositeElement::clone() const
 /**
  *  \brief Write object to stream in form of (el<SUB>1</SUB><op>el<SUB>2</SUB>) where els are contained elements and <op> is operation char. i.e. '(x+y)'
  *  \param [in,out] o std::ostream& output stream
- *  \param [in] v const CompositeElement& value to be streamed
+ *  \param [in] e const CompositeElement& value to be streamed
  *  \return std::ostream reference appended by object
  */
 std::ostream& operator<<(std::ostream& o, const CompositeElement& e)
@@ -113,8 +113,8 @@ std::ostream& operator<<(std::ostream& o, const CompositeElement& e)
 /**
  *  \brief Overload of equal comparison
  *  \note Actual function comparison works with + - and * operations but not necessarily with any function. Tested with this->op_fun(3,5) == e.op_fun(3,5)
- *  \param [in] m const CompositeElement& value
- *  \return true if this and m contains
+ *  \param [in] e const eElement& value
+ *  \return true if this and m contains sane value
  */
 bool CompositeElement::operator==(const Element& e) const
 {
@@ -133,9 +133,9 @@ bool CompositeElement::operator==(const Element& e) const
 
 /**
  *  \brief Equal comparison
- *  \note Actual function comparison works with + - and * operations but not necessarily with any function. Tested with this->op_fun(3,5) == e.op_fun(3,5)
- *  \param [in] m const CompositeElement& value
- *  \return true if this and m contains
+ *  \note comparison of function works with + - and * operations but not necessarily detect any functions differences. Thats caused by function is only tested by this->op_fun(3,5) == e.op_fun(3,5)
+ *  \param [in] e const CompositeElement& value
+ *  \return true if this and e contains
  */
 bool CompositeElement::operator==(const CompositeElement& e) const
 {

@@ -33,6 +33,6 @@ public:
 	virtual int evaluate(const Valuation& v) const;
 	virtual bool operator==(const Element& e) const;
 
-	friend std::ostream& operator<<(std::ostream& o, const CompositeElement& v);
+	friend std::ostream& operator<<(std::ostream& o, const CompositeElement& e);
 };
 #endif

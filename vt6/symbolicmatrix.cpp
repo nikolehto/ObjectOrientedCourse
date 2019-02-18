@@ -20,7 +20,7 @@ SymbolicSquareMatrix::SymbolicSquareMatrix() = default;
 
 /**
  *  \brief Constructs a matrix from string of the form [[a<SUB>11</SUB>,...,a<SUB>1n</SUB>]...[a<SUB>n1</SUB>,...,a<SUB>nn</SUB>]]
- *  \param [in] s const std::string% string presentation of matrix in form '[[a<SUB>11</SUB>,...,<SUB>a1n</SUB>]...[a<SUB>n1</SUB>,...,<SUB>ann</SUB>]]' where in element: e<SUB>ij</SUB>, <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
+ *  \param [in] s const std::string& string presentation of matrix in form '[[a<SUB>11</SUB>,...,<SUB>a1n</SUB>]...[a<SUB>n1</SUB>,...,<SUB>ann</SUB>]]' where in element: e<SUB>ij</SUB>, <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
 */
 SymbolicSquareMatrix::SymbolicSquareMatrix(const std::string& s)
 {
@@ -52,10 +52,11 @@ SymbolicSquareMatrix::SymbolicSquareMatrix(SymbolicSquareMatrix&& m)
  */
 SymbolicSquareMatrix::~SymbolicSquareMatrix() = default;
 
+
 /**
  *  \brief Saves a matrix from string of the form [[a<SUB>11</SUB>,...,a<SUB>1n</SUB>]...[a<SUB>n1</SUB>,...,a<SUB>nn</SUB>]]
  *  \param [in] matrix const std::string% string presentation of matrix in form '[[a<SUB>11</SUB>,...,<SUB>a1n</SUB>]...[a<SUB>n1</SUB>,...,<SUB>ann</SUB>]]' where in element: e<SUB>ij</SUB>, <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
-*/
+ */
 void SymbolicSquareMatrix::fromString(const std::string& matrix)
 {
 	size_t len = matrix.length();
@@ -162,7 +163,7 @@ void SymbolicSquareMatrix::fromString(const std::string& matrix)
 
 /**
  *  \brief Make transpose of the matrix
- * \return new matrix transposed
+ *  \return new matrix transposed
  */
 SymbolicSquareMatrix SymbolicSquareMatrix::transpose() const
 {
@@ -194,7 +195,7 @@ void SymbolicSquareMatrix::print
 
 /**
  *  \brief Write object to string in form of [[<i<SUB>11</SUB>>,<i<SUB>12</SUB>>][<i<SUB>21</SUB>>,<i<SUB>22</SUB>>]]
-*		where i<SUB>ij</SUB> : <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
+ *		where i<SUB>ij</SUB> : <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
  *  \return std::string object as a string
  *  */
 std::string SymbolicSquareMatrix::toString() const
