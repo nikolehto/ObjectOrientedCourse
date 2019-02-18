@@ -331,14 +331,31 @@ SymbolicSquareMatrix SymbolicSquareMatrix::operator*(const SymbolicSquareMatrix&
 
     for(size_t x = 0; x < t_n; x++)
     {
-        std::shared_ptr<Element> elem_ptr = nullptr;
+
         std::vector<std::shared_ptr<Element>> temp;
         for(size_t y = 0; y < t_n; y++)
         {
-            elem_ptr = std::make_shared<CompositeElement>(*(this->elements.at(x).at(y)), *(m.elements.at(x).at(y)), std::multiplies<int>(), '*');
-            temp.push_back(elem_ptr);
-        }
+            std::shared_ptr<Element> elem_ptr = nullptr;
+            std::shared_ptr<Element> prev_ptr = nullptr;
+            std::shared_ptr<Element> sum_ptr = nullptr;
+            //std::vector<std::shared_ptr<Element>> toSum;
 
+            for(size_t tx = 0; tx < t_n; tx++)
+            {
+                elem_ptr = std::make_shared<CompositeElement>(*(this->elements.at(x).at(tx)), *(m.elements.at(tx).at(y)), std::multiplies<int>(), '*');
+                if(prev_ptr!=nullptr)
+                {
+                    sum_ptr = std::make_shared<CompositeElement>(*prev_ptr, *elem_ptr, std::plus<int>(), '+');
+                    prev_ptr = sum_ptr;
+                }
+                else
+                {
+                    prev_ptr = elem_ptr;
+                }
+            }
+            //elem_ptr = std::make_shared<CompositeElement>(*(this->elements.at(x).at(y)), *(m.elements.at(x).at(y)), std::multiplies<int>(), '*');
+            temp.push_back(sum_ptr);
+        }
         ssm.elements.push_back(temp);
     }
 
