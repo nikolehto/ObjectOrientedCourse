@@ -45,10 +45,20 @@ TElement<T>::TElement(char v)
 
 /**
  *  \brief Clone constructor
- *  \param [in] i const TElement& initial value for TElement
+ *  \param [in] i const VariableElement& initial value for TElement
  * */
-template<class T>
-TElement<T>::TElement(const TElement& i)
+template<>
+IntElement::TElement(const IntElement& i)
+{
+	telement = i.getVal();
+}
+
+/**
+ *  \brief Clone constructor
+ *  \param [in] i const VariableElement& initial value for TElement
+ * */
+template<>
+VariableElement::TElement(const VariableElement& i)
 {
 	telement = i.getVal();
 }
@@ -73,7 +83,7 @@ TElement<T>::TElement(const std::string& number)
 	    // option 2 not integer and length is zero - return after checks and sets
         if (number.length() != 1)
         {
-            throw std::invalid_argument( "Element empty or not a char" );
+            throw std::invalid_argument( "Element contains zero or multiple chars, one char or integer required" );
         }
 
         value = number[0];
@@ -168,8 +178,8 @@ std::shared_ptr<Element> TElement<T>::clone() const
  *  \param [in] i const IntElement& value to be added
  *  \return Reference to left-hand side IntElement object added by i
  */
-template<class T>
-IntElement& TElement<T>::operator+=(const IntElement& i)
+template<>
+IntElement& IntElement::operator+=(const IntElement& i)
 {
 	telement = telement + i.getVal();
 	return *this;
@@ -180,8 +190,8 @@ IntElement& TElement<T>::operator+=(const IntElement& i)
  *  \param [in] i const IntElement& value to be substracted
  *  \return Reference to left-hand side IntElement object substracted by i
  */
-template<class T>
-IntElement& TElement<T>::operator-=(const IntElement& i)
+template<>
+IntElement& IntElement::operator-=(const IntElement& i)
 {
 	telement = telement - i.getVal();
 	return *this;
@@ -192,8 +202,8 @@ IntElement& TElement<T>::operator-=(const IntElement& i)
  *  \param [in] i const IntElement& value to be multiplied
  *  \return Reference to left-hand side IntElement object multiplied by i
  */
-template<class T>
-IntElement& TElement<T>::operator*=(const IntElement& i)
+template<>
+IntElement& IntElement::operator*=(const IntElement& i)
 {
 	telement = telement * i.getVal();
 	return *this;
@@ -280,3 +290,6 @@ bool TElement<T>::operator==(const Element& i) const
         return false;
     }
 }
+
+template class TElement<int>;
+template class TElement<char>;

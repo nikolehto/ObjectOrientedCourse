@@ -41,11 +41,11 @@ public:
 	T getVal() const;
 	void setVal(T v);
 
-	IntElement& operator+=(const IntElement& i);
-	IntElement& operator-=(const IntElement& i);
-	IntElement& operator*=(const IntElement& i);
-
 	bool operator==(const TElement& i) const;
+
+	IntElement& operator+=(const TElement& i);
+	IntElement& operator-=(const TElement& i);
+	IntElement& operator*=(const TElement& i);
 
 	friend IntElement operator+(const IntElement& a, const IntElement& b);
 	friend IntElement operator-(const IntElement& a, const IntElement& b);
