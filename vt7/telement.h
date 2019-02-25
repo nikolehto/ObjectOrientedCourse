@@ -38,10 +38,12 @@ public:
 	virtual std::shared_ptr<Element> clone() const;
 	virtual std::string toString() const;
 	virtual bool operator==(const Element& i) const;
+    virtual bool isEqual(const Element& i) const;
 
 	T getVal() const;
 	void setVal(T v);
 
+	bool isEqual(const TElement& i) const;
 	bool operator==(const TElement& i) const;
 
 	IntElement& operator+=(const IntElement& i);

@@ -325,5 +325,35 @@ bool TElement<T>::operator==(const Element& i) const
     }
 }
 
+/**
+ *  \brief isEqual comparison
+ *  \param [in] i const Element& value
+ *  \return true if this and i are identical
+ */
+template<class T>
+bool TElement<T>::isEqual(const TElement& i) const
+{
+	return this->getVal() == i.getVal();
+}
+
+/**
+ *  \brief Overload of isEqual comparison
+ *  \param [in] i const Element& value
+ *  \return true if this and i are identical
+ */
+template<class T>
+bool TElement<T>::isEqual(const Element& i) const
+{
+    std::shared_ptr<TElement> i_e;
+    if(i_e = std::dynamic_pointer_cast<TElement>(i.clone()))
+    {
+        return *this == *i_e;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 template class TElement<int>;
 template class TElement<char>;
