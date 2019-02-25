@@ -26,8 +26,20 @@ TElement<T>::TElement()
  *  \brief Parameterized constructor
  *  \param [in] v int initial value for TElement
  * */
+ /*
 template<class T>
-TElement<T>::TElement(int v)
+TElement<T>::TElement(T v)
+{
+	telement = v;
+}
+*/
+/**
+ *  \brief Parameterized constructor
+ *  \param [in] v int initial value for TElement
+ * */
+
+template<>
+IntElement::TElement(int v)
 {
 	telement = v;
 }
@@ -36,8 +48,9 @@ TElement<T>::TElement(int v)
  *  \brief Parameterized constructor
  *  \param [in] v char initial value for TElement
  * */
-template<class T>
-TElement<T>::TElement(char v)
+
+template<>
+VariableElement::TElement(char v)
 {
 	telement = v;
 }
@@ -45,20 +58,10 @@ TElement<T>::TElement(char v)
 
 /**
  *  \brief Clone constructor
- *  \param [in] i const VariableElement& initial value for TElement
+ *  \param [in] i const TElement& initial value for TElement
  * */
-template<>
-IntElement::TElement(const IntElement& i)
-{
-	telement = i.getVal();
-}
-
-/**
- *  \brief Clone constructor
- *  \param [in] i const VariableElement& initial value for TElement
- * */
-template<>
-VariableElement::TElement(const VariableElement& i)
+template<class T>
+TElement<T>::TElement(const TElement& i)
 {
 	telement = i.getVal();
 }
@@ -122,6 +125,7 @@ T TElement<T>::getVal() const
 * \param [in] v const Valuation& contains symbol values
 * \return int value or corresponding value
 */
+/*
 template<class T>
 int TElement<T>::evaluate(const Valuation& v) const
 {
@@ -137,6 +141,26 @@ int TElement<T>::evaluate(const Valuation& v) const
     {
         throw std::invalid_argument( "Symbolic variable cannot be found from given Valuation v" );
     }
+}
+*/
+
+template<>
+int VariableElement::evaluate(const Valuation& v) const
+{
+    if (v.count(telement))
+    {
+        return v.at(telement);
+    }
+    else
+    {
+        throw std::invalid_argument( "Symbolic variable cannot be found from given Valuation v" );
+    }
+}
+
+template<>
+int IntElement::evaluate(const Valuation& v) const
+{
+    return telement;
 }
 
 /**
@@ -171,7 +195,6 @@ std::shared_ptr<Element> TElement<T>::clone() const
 {
     return std::shared_ptr<Element>(new TElement(*this));
 }
-
 
 /**
  *  \brief Addition assignment. Performs addition by adding right-hand side into left-hand side of equation
@@ -254,8 +277,19 @@ IntElement operator*(const IntElement& a, const IntElement& b)
  *  \param [in] v const TElement& value to be streamed
  *  \return std::ostream reference appended by object
  */
-template<class U>
-std::ostream& operator<<(std::ostream& o, const TElement<U>& v)
+std::ostream& operator<<(std::ostream& o, const VariableElement& v)
+{
+	o << v.telement;
+	return o;
+}
+
+/**
+ *  \brief Write object to stream
+ *  \param [in,out] o std::ostream& output stream
+ *  \param [in] v const TElement& value to be streamed
+ *  \return std::ostream reference appended by object
+ */
+std::ostream& operator<<(std::ostream& o, const IntElement& v)
 {
 	o << std::to_string(v.telement);
 	return o;

@@ -30,6 +30,7 @@ public:
     TElement(const std::string& number);
 	TElement(int v);
 	TElement(char v);
+	//TElement(char v);
 	TElement(const TElement& i);
 	~TElement();
 
@@ -43,15 +44,14 @@ public:
 
 	bool operator==(const TElement& i) const;
 
-	IntElement& operator+=(const TElement& i);
-	IntElement& operator-=(const TElement& i);
-	IntElement& operator*=(const TElement& i);
+	IntElement& operator+=(const IntElement& i);
+	IntElement& operator-=(const IntElement& i);
+	IntElement& operator*=(const IntElement& i);
 
 	friend IntElement operator+(const IntElement& a, const IntElement& b);
 	friend IntElement operator-(const IntElement& a, const IntElement& b);
 	friend IntElement operator*(const IntElement& a, const IntElement& b);
-
-	template<class U>
-	friend std::ostream& operator<<(std::ostream& o, const TElement<U>& v);
+	friend std::ostream& operator<<(std::ostream& o, const VariableElement& v);
+	friend std::ostream& operator<<(std::ostream& o, const IntElement& v);
 };
 #endif
