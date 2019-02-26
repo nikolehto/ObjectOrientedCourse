@@ -1,5 +1,4 @@
 #include "elementarysquarematrix.h"
-#include "catch.hpp"
 
 /**
  *  @file elementarysquarematrix.cpp
