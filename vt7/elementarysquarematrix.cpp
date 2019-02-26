@@ -16,14 +16,14 @@
 /**
  *  \brief Empty constructor
  */
-template<class T>
+template<typename T>
 ElementarySquareMatrix<T>::ElementarySquareMatrix() = default;
 
 /**
  *  \brief Constructs a matrix from string of the form [[a<SUB>11</SUB>,...,a<SUB>1n</SUB>]...[a<SUB>n1</SUB>,...,a<SUB>nn</SUB>]]
  *  \param [in] s const std::string& string presentation of matrix in form '[[a<SUB>11</SUB>,...,<SUB>a1n</SUB>]...[a<SUB>n1</SUB>,...,<SUB>ann</SUB>]]' where in element: e<SUB>ij</SUB>, <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
 */
-template<class T>
+template<typename T>
 ElementarySquareMatrix<T>::ElementarySquareMatrix(const std::string& s)
 {
     fromString(s);
@@ -33,7 +33,7 @@ ElementarySquareMatrix<T>::ElementarySquareMatrix(const std::string& s)
  *  \brief Clone constructor
  *  \param [in] m const ElementarySquareMatrix& object to clone
  */
-template<class T>
+template<typename T>
 ElementarySquareMatrix<T>::ElementarySquareMatrix(const ElementarySquareMatrix& m)
 {
     *this = m;
@@ -43,7 +43,7 @@ ElementarySquareMatrix<T>::ElementarySquareMatrix(const ElementarySquareMatrix& 
  *  \brief Move constructor
  *  \param [in] m const ElementarySquareMatrix&& object contain values
  */
-template<class T>
+template<typename T>
 ElementarySquareMatrix<T>::ElementarySquareMatrix(ElementarySquareMatrix&& m)
 {
     *this = std::move(m);
@@ -53,7 +53,7 @@ ElementarySquareMatrix<T>::ElementarySquareMatrix(ElementarySquareMatrix&& m)
 /**
  *  \brief Default destructor
  */
-template<class T>
+template<typename T>
 ElementarySquareMatrix<T>::~ElementarySquareMatrix() = default;
 
 
@@ -61,7 +61,7 @@ ElementarySquareMatrix<T>::~ElementarySquareMatrix() = default;
  *  \brief Saves a matrix from string of the form [[a<SUB>11</SUB>,...,a<SUB>1n</SUB>]...[a<SUB>n1</SUB>,...,a<SUB>nn</SUB>]]
  *  \param [in] matrix const std::string% string presentation of matrix in form '[[a<SUB>11</SUB>,...,<SUB>a1n</SUB>]...[a<SUB>n1</SUB>,...,<SUB>ann</SUB>]]' where in element: e<SUB>ij</SUB>, <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
  */
-template<class T>
+template<typename T>
 void ElementarySquareMatrix<T>::fromString(const std::string& matrix)
 {
 	size_t len = matrix.length();
@@ -177,14 +177,24 @@ std::shared_ptr<Element> SymbolicSquareMatrix::getElemPtr(std::string token)
 template<>
 std::shared_ptr<IntElement> ConcreteSquareMatrix::getElemPtr(std::string token)
 {
-    return std::make_shared<IntElement>(token);;
+    std::shared_ptr<IntElement> elem_ptr = nullptr;
+    try
+	{
+        std::stoi(token);
+	}
+	catch (const std::invalid_argument nn)
+	{
+        throw std::invalid_argument( "Element not an integer, or it contains character" );
+	}
+	elem_ptr = std::make_shared<IntElement>(token);
+	return elem_ptr;
 }
 
 /**
  *  \brief Make transpose of the matrix
  *  \return new matrix transposed
  */
-template<class T>
+template<typename T>
 ElementarySquareMatrix<T> ElementarySquareMatrix<T>::transpose() const
 {
     size_t t_n = this->elements.size();
@@ -206,7 +216,7 @@ ElementarySquareMatrix<T> ElementarySquareMatrix<T>::transpose() const
  *		where i<SUB>ij</SUB> : <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
  *  \param [out] stream std::ostream& output stream
  */
-template<class T>
+template<typename T>
 void ElementarySquareMatrix<T>::print
     (std::ostream& stream) const
 {
@@ -219,7 +229,7 @@ void ElementarySquareMatrix<T>::print
  *		where i<SUB>ij</SUB> : <SUB>i</SUB> refers to row and <SUB>j</SUB> refers to column
  *  \return std::string object as a string
  *  */
-template<class T>
+template<typename T>
 std::string ElementarySquareMatrix<T>::toString() const
 {
 	std::stringstream result;
@@ -232,7 +242,7 @@ std::string ElementarySquareMatrix<T>::toString() const
  *  \param [in] m const ElementarySquareMatrix&
  *  \return Reference to copied right-hand side matrix
  */
-template<class T>
+template<typename T>
 ElementarySquareMatrix<T>& ElementarySquareMatrix<T>::operator=(const ElementarySquareMatrix<T>& m)
 {
     // self assignment is dangerous since this -> clear()
@@ -262,7 +272,7 @@ ElementarySquareMatrix<T>& ElementarySquareMatrix<T>::operator=(const Elementary
  *  \param [in] m ElementarySquareMatrix&&
  *  \return Reference to original right-hand side matrix
  */
-template<class T>
+template<typename T>
 ElementarySquareMatrix<T>& ElementarySquareMatrix<T>::operator=(ElementarySquareMatrix&& m)
 {
     if(this != &m)
@@ -281,7 +291,7 @@ ElementarySquareMatrix<T>& ElementarySquareMatrix<T>::operator=(ElementarySquare
  *  \param [in] m const ElementarySquareMatrix& m
  *  \return stream appended by object
  */
-template<class T>
+template<typename T>
 std::ostream& operator<<(std::ostream& stream, const ElementarySquareMatrix<T>& m)
 {
     if(m.elements.size() == 0)
@@ -315,7 +325,7 @@ std::ostream& operator<<(std::ostream& stream, const ElementarySquareMatrix<T>& 
  *  \param [in] v const Valuation& contains symbol values
  *  \return ConcreteSquareMatrix containing corresponding values
  */
-template<class T>
+template<typename T>
 ConcreteSquareMatrix ElementarySquareMatrix<T>::evaluate(const Valuation& v) const
 {
     ConcreteSquareMatrix m;
@@ -340,7 +350,7 @@ ConcreteSquareMatrix ElementarySquareMatrix<T>::evaluate(const Valuation& v) con
  *  \param [in] m const ElementarySquareMatrix& value for comparison
  *  \return bool true if this and m are identical
  */
-template<class T>
+template<typename T>
 bool ElementarySquareMatrix<T>::operator==(const ElementarySquareMatrix& m) const
 {
     // std::cout << "\n" << this->n << m.n;
@@ -506,8 +516,8 @@ ConcreteSquareMatrix ConcreteSquareMatrix::operator*(const ConcreteSquareMatrix&
  *  \param [in] i const ElementarySquareMatrix& i
  *  \return Reference to squarematrix sum of a and b
  */
-template<>
-SymbolicSquareMatrix SymbolicSquareMatrix::operator+(const ElementarySquareMatrix& m) const
+template<typename T>
+ElementarySquareMatrix<T> ElementarySquareMatrix<T>::operator+(const ElementarySquareMatrix<T>& m) const
 {
     if(this->n != m.n)
     {
@@ -540,8 +550,8 @@ SymbolicSquareMatrix SymbolicSquareMatrix::operator+(const ElementarySquareMatri
  *  \param [in] i const ElementarySquareMatrix& i
  *  \return Reference to squarematrix substraction of a and b
  */
-template<>
-SymbolicSquareMatrix SymbolicSquareMatrix::operator-(const ElementarySquareMatrix& m) const
+template<typename T>
+ElementarySquareMatrix<T> ElementarySquareMatrix<T>::operator-(const ElementarySquareMatrix<T>& m) const
 {
     if(this->n != m.n)
     {
@@ -573,8 +583,8 @@ SymbolicSquareMatrix SymbolicSquareMatrix::operator-(const ElementarySquareMatri
  *  \param [in] m const ElementarySquareMatrix& m
  *  \return Reference to squarematrix multiplication of a and b
  */
-template<>
-SymbolicSquareMatrix SymbolicSquareMatrix::operator*(const ElementarySquareMatrix& m) const
+template<typename T>
+ElementarySquareMatrix<T> ElementarySquareMatrix<T>::operator*(const ElementarySquareMatrix<T>& m) const
 {
     if(this->n != m.n)
     {

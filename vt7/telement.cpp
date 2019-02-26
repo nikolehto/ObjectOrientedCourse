@@ -16,7 +16,7 @@
 /**
  *  \brief Empty constructor
  * */
-template<class T>
+template<typename T>
 TElement<T>::TElement()
 {
 	telement = 0;
@@ -27,7 +27,7 @@ TElement<T>::TElement()
  *  \param [in] v int initial value for TElement
  * */
  /*
-template<class T>
+template<typename T>
 TElement<T>::TElement(T v)
 {
 	telement = v;
@@ -60,7 +60,7 @@ VariableElement::TElement(char v)
  *  \brief Clone constructor
  *  \param [in] i const TElement& initial value for TElement
  * */
-template<class T>
+template<typename T>
 TElement<T>::TElement(const TElement& i)
 {
 	telement = i.getVal();
@@ -70,7 +70,7 @@ TElement<T>::TElement(const TElement& i)
  *  \brief String constructor
  *  \param [in] number const std::string& number as string
  * */
-template<class T>
+template<typename T>
 TElement<T>::TElement(const std::string& number)
 {
 	size_t idx = 0;
@@ -107,14 +107,14 @@ TElement<T>::TElement(const std::string& number)
 /**
  *  \brief Default destructor
  * */
-template<class T>
+template<typename T>
 TElement<T>::~TElement() = default;
 
 /**
  *  \brief Getter method
  *  \return T value of TElement
  */
-template<class T>
+template<typename T>
 T TElement<T>::getVal() const
 {
 	return telement;
@@ -126,7 +126,7 @@ T TElement<T>::getVal() const
 * \return int value or corresponding value
 */
 /*
-template<class T>
+template<typename T>
 int TElement<T>::evaluate(const Valuation& v) const
 {
     if(std::is_same<T,int>::value)
@@ -167,7 +167,7 @@ int IntElement::evaluate(const Valuation& v) const
  *  \brief Write element to string
  *  \return std::string object as a string
  *  */
-template<class T>
+template<typename T>
 std::string TElement<T>::toString() const
 {
 	std::stringstream result;
@@ -180,7 +180,7 @@ std::string TElement<T>::toString() const
  *  \brief Setter method
  *  \param [in] v int value for TElement
  */
-template<class T>
+template<typename T>
 void TElement<T>::setVal(T v)
 {
 	telement = v;
@@ -190,7 +190,7 @@ void TElement<T>::setVal(T v)
  * \brief returns the pointer to a copy of this using smart pointer
  * \return shared_ptr containing value of telement
  */
-template<class T>
+template<typename T>
 std::shared_ptr<Element> TElement<T>::clone() const
 {
     return std::shared_ptr<Element>(new TElement(*this));
@@ -300,7 +300,7 @@ std::ostream& operator<<(std::ostream& o, const IntElement& v)
  *  \param [in] i const TElement& value
  *  \return true if this and i are identical
  */
-template<class T>
+template<typename T>
 bool TElement<T>::operator==(const TElement& i) const
 {
 	return this->getVal() == i.getVal();
@@ -311,7 +311,7 @@ bool TElement<T>::operator==(const TElement& i) const
  *  \param [in] i const Element& value
  *  \return true if this and i are identical
  */
-template<class T>
+template<typename T>
 bool TElement<T>::operator==(const Element& i) const
 {
     std::shared_ptr<TElement> i_e;
@@ -330,7 +330,7 @@ bool TElement<T>::operator==(const Element& i) const
  *  \param [in] i const Element& value
  *  \return true if this and i are identical
  */
-template<class T>
+template<typename T>
 bool TElement<T>::isEqual(const TElement& i) const
 {
 	return this->getVal() == i.getVal();
@@ -341,7 +341,7 @@ bool TElement<T>::isEqual(const TElement& i) const
  *  \param [in] i const Element& value
  *  \return true if this and i are identical
  */
-template<class T>
+template<typename T>
 bool TElement<T>::isEqual(const Element& i) const
 {
     std::shared_ptr<TElement> i_e;

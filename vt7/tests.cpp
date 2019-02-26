@@ -1,5 +1,3 @@
-#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
-
 #include "catch.hpp"
 #include "elementarysquarematrix.h"
 
@@ -227,6 +225,9 @@ TEST_CASE("ConcreteSquareMatrix little ones", "[ConcreteSquareMatrix]") {
 	std::string result3_string = "[[10,13][22,29]]";
 
 	std::stringstream out_1, out_2, out_3, out_4;
+
+	CHECK_THROWS( ConcreteSquareMatrix("[[x]]") );
+
 
 	a += b;
 
@@ -551,7 +552,7 @@ TEST_CASE("ConcreteSquareMatrix String constructor", "[ConcreteSquareMatrixN-1]"
 
 	invalids.push_back(TestContainer("[[2]1", "Should end \"]]\", Ended \"]1\" instead"));
 
-	invalids.push_back(TestContainer("[[1,2,]1[3,4,6][5,6,7]]", "Element contains zero or multiple chars, one char or integer required"));
+	invalids.push_back(TestContainer("[[1,2,]1[3,4,6][5,6,7]]", "Element not an integer, or it contains character"));
 
 	invalids.push_back(TestContainer("[[1,2][4,6]]5,6,7]]", "Ends too soon, row \"][\" expected"));
 

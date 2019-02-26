@@ -25,6 +25,11 @@ std::ostream& operator<<(std::ostream& o, const Element& v)
     return o;
 }
 
+/**
+ *  \brief Equal comparison calls overloaded isEqual function
+ *  \param [in] e const Element& value
+ *  \return true if this and e are identical
+ */
 bool Element::operator==(const Element& e) const
 {
     return this->isEqual(e);
