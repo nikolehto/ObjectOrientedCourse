@@ -165,7 +165,7 @@ std::shared_ptr<Element> SymbolicSquareMatrix::getElemPtr(std::string token)
         std::stoi(token);
         elem_ptr = std::make_shared<IntElement>(token);
     } // if throws, try initialize as VariableElement - do not catch
-    catch (const std::invalid_argument nn)
+    catch (const std::invalid_argument& nn)
     {
         elem_ptr = std::make_shared<VariableElement>(token);
     }
@@ -181,7 +181,7 @@ std::shared_ptr<IntElement> ConcreteSquareMatrix::getElemPtr(std::string token)
 	{
         std::stoi(token);
 	}
-	catch (const std::invalid_argument nn)
+	catch (const std::invalid_argument& nn)
 	{
         throw std::invalid_argument( "Element not an integer, or it contains character" );
 	}

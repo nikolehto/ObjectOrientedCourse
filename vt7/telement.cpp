@@ -80,7 +80,7 @@ TElement<T>::TElement(const std::string& number)
 	    // option 1 looks like integer
 		value = std::stoi(number, &idx);
 	}
-	catch (const std::invalid_argument nn)
+	catch (const std::invalid_argument& nn)
 	{
 	    // option 2 not integer and length is zero - return after checks and sets
         if (number.length() != 1)

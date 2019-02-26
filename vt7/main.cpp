@@ -41,7 +41,7 @@ int stringToInt(const std::string& number)
 
 /**
  *  \brief Main function
- *  \return success
+ *  \return 0 on success, -1 on ioerror
  */
 int main()
 {
