@@ -2,7 +2,7 @@
 #define ELEMENT_H
 
 #include <sstream>
-#include "catch.hpp"
+#include <memory>
 #include "valuation.h"
 
 /**

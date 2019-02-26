@@ -2,7 +2,7 @@
 #define TELEMENT_H
 
 #include <sstream>
-#include "catch.hpp"
+#include <memory>
 #include "valuation.h"
 #include "element.h"
 

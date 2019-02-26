@@ -1,5 +1,9 @@
 #include "catch.hpp"
 #include "elementarysquarematrix.h"
+#include "element.h"
+#include "telement.h"
+#include "compositeelement.h"
+#include "valuation.h"
 
 /**
  *  @file tests.cpp

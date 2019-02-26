@@ -4,7 +4,7 @@
 #include "valuation.h"
 #include "telement.h"
 #include "compositeelement.h"
-#include "catch.hpp"
+#include <vector>
 #include <sstream>
 // #include <iostream> // DEBUG
 
