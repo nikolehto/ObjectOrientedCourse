@@ -10,6 +10,10 @@
  *  */
 
 
+ /**
+ *  \brief Main function
+ *  \return 0 on success, 1 on wrong argument
+ */
 void benchmark(int multi_n, int other_n)
 {
     unsigned int threadsSupported = std::thread::hardware_concurrency();
@@ -53,7 +57,7 @@ void benchmark(int multi_n, int other_n)
 
     t2 = std::chrono::system_clock::now();
     elapsed_seconds = t2 - t1;
-    std::cout << "substraction took: " << elapsed_seconds.count() << '\n';
+    std::cout << "subtraction took: " << elapsed_seconds.count() << '\n';
     t1 = std::chrono::system_clock::now();
 
     result = m_a * m_b.transpose();

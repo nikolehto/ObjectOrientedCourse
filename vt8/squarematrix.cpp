@@ -248,8 +248,8 @@ SquareMatrix& SquareMatrix::operator+=(const SquareMatrix& m)
 
     for(size_t worker = 0; worker < threadsSupported; worker++)
     {
-		size_t worker_start = roundf(worker * step);
-		size_t worker_stop = roundf(((worker+1) * step));
+		size_t worker_start = round(worker * step);
+		size_t worker_stop = round(((worker+1) * step));
 
         workers.push_back(std::thread([&, worker_start, worker_stop]()
         {
@@ -298,8 +298,8 @@ SquareMatrix& SquareMatrix::operator-=(const SquareMatrix& m)
 
     for(size_t worker = 0; worker < threadsSupported; worker++)
     {
-		size_t worker_start = roundf(worker * step);
-		size_t worker_stop = roundf(((worker+1) * step));
+		size_t worker_start = round(worker * step);
+		size_t worker_stop = round(((worker+1) * step));
 
         workers.push_back(std::thread([&, worker_start, worker_stop]()
         {
@@ -350,8 +350,8 @@ SquareMatrix& SquareMatrix::operator*=(const SquareMatrix& i)
 
     for(size_t worker = 0; worker < threadsSupported; worker++)
     {
-		size_t worker_start = roundf(worker * step);
-		size_t worker_stop = roundf(((worker+1) * step));
+		size_t worker_start = round(worker * step);
+		size_t worker_stop = round(((worker+1) * step));
 
         workers.push_back(std::thread([&, worker_start, worker_stop]()
         {
