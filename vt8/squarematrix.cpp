@@ -1,5 +1,4 @@
 #include "squarematrix.h"
-#include <iostream> // debug
 
 /**
  *  @file squarematrix.cpp
@@ -34,15 +33,47 @@ SquareMatrix::SquareMatrix(const std::string& s)
 */
 SquareMatrix::SquareMatrix(int n)
 {
-    std::srand(time(0));
-    this->elements.reserve(n);
-    for(int i = 0; i<n; i++)
-    {
-        std::vector<IntElement> intEls(n);
-        std::generate(intEls.begin(), intEls.end(), std::rand);
-        this->elements.push_back(intEls);
-    }
+    unsigned int seed = time(0);
+
     this->n = n;
+
+    this->elements.reserve(n);
+
+    unsigned int threadsSupported = std::thread::hardware_concurrency();
+    if(threadsSupported == 0)
+    {
+        threadsSupported = 8; // anything should be fine
+    }
+
+    std::vector<std::thread> workers;
+    std::mutex elementlock;
+
+	float step = n / (float) threadsSupported;
+
+    for(size_t worker = 0; worker < threadsSupported; worker++)
+    {
+		size_t worker_start = round(worker * step);
+		size_t worker_stop = round(((worker+1) * step));
+
+        workers.push_back(std::thread([&, worker_start, worker_stop]()
+        {
+            std::srand(seed + worker_start);
+            for(size_t i = worker_start; i < worker_stop; i++)
+            {
+                std::vector<IntElement> intEls(n);
+                std::generate(intEls.begin(), intEls.end(), std::rand);
+                elementlock.lock();
+                this->elements.push_back(intEls);
+                elementlock.unlock();
+            }
+        }));
+
+    }
+
+    std::for_each(workers.begin(), workers.end(), [](std::thread &t)
+    {
+        t.join();
+    });
 }
 
 /**

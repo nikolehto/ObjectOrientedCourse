@@ -9,10 +9,31 @@
  *  @brief Implementation of main function
  *  */
 
+/**
+benchmark:
+    multi_n = 1000, other_n 10000
+    ryzen 1600
+
+12-threads
+    constructors took: 0.770173
+    addition took: 1.11825
+    subtraction took: 0.928209
+    multiplication and transpose took: 2.34753
+    benchmark took: 5.16716
+
+single-thread
+    constructors took: 4.24796
+    addition took: 4.81182
+    subtraction took: 4.32765
+    multiplication and transpose took: 11.1886
+    benchmark took: 24.578
+
+*/
 
 /**
-*  \brief Main function
-*  \return 0 on success, 1 on wrong argument
+*  \brief Mix of constructor and calculation operations
+*  \param [in] multi_n int dimension of matrices used in multiplication bench
+*  \param [in] other_n int dimension of matrices used in addition substraction benches
 */
 void benchmark(int multi_n, int other_n)
 {
@@ -80,9 +101,6 @@ void benchmark(int multi_n, int other_n)
  */
 int main(int argc, char* argv[])
 {
-    // benchmark(500, 5000); // debug
-    // return 0;    // debug
-
     if(argc < 2)
     {
         Catch::Session().run();
@@ -91,7 +109,7 @@ int main(int argc, char* argv[])
 
     else if(std::string(argv[1]) == "--benchmark" || std::string(argv[1]) == "-b")
     {
-        benchmark(700, 7000);
+        benchmark(1000, 10000);
         return 0;
     }
 
