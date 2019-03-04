@@ -1,4 +1,5 @@
 #include "squarematrix.h"
+#include <iostream> // debug
 
 /**
  *  @file squarematrix.cpp
@@ -223,54 +224,100 @@ SquareMatrix& SquareMatrix::operator=(const SquareMatrix& i)
 
 /**
  *  \brief Addition assignment. Performs matrix addition by adding right-hand side into left-hand side of equation
- *  \param [in] i const SquareMatrix& i
- *  \return Reference to left-hand side matrix added by i
+ *  \param [in] m const SquareMatrix& m
+ *  \return Reference to left-hand side matrix added by m
  */
-SquareMatrix& SquareMatrix::operator+=(const SquareMatrix& i)
+SquareMatrix& SquareMatrix::operator+=(const SquareMatrix& m)
 {
-    if(this->n != i.n)
+    if(this->n != m.n)
     {
         throw std::invalid_argument("operator requires same sized matrices");
     }
 
-    auto row_i = i.elements.begin();
-    for(auto& row_this : this->elements)
+    unsigned int threadsSupported = std::thread::hardware_concurrency();
+    if(threadsSupported == 0)
     {
-        auto elem_i = row_i->begin();
-        for(auto& elem_this : row_this)
-        {
-            elem_this += *elem_i;
-            elem_i++;
-        }
-        row_i++;
+        threadsSupported = 8; // anything should be fine
     }
+
+    std::vector<std::thread> workers;
+
+	size_t t_n = this->elements.size();
+
+	float step = t_n / (float) threadsSupported;
+
+    for(size_t worker = 0; worker < threadsSupported; worker++)
+    {
+		size_t worker_start = roundf(worker * step);
+		size_t worker_stop = roundf(((worker+1) * step));
+
+        workers.push_back(std::thread([&, worker_start, worker_stop]()
+        {
+            for(size_t i = worker_start; i < worker_stop; i++)
+            {
+                for(size_t j = 0; j < t_n; j++)
+                {
+                    this->elements.at(i).at(j) += m.elements[i][j];
+                }
+            }
+        }));
+
+    }
+
+    std::for_each(workers.begin(), workers.end(), [](std::thread &t)
+    {
+        t.join();
+    });
 
 	return *this;
 }
 
  /**
  *  \brief Substraction assignment. Performs matrix substraction by substracting right-hand side from the left-hand side of equation
- *  \param [in] i const SquareMatrix& i
- *  \return Reference to left-hand side matrix substracted by i
+ *  \param [in] m const SquareMatrix& m
+ *  \return Reference to left-hand side matrix substracted by m
  */
-SquareMatrix& SquareMatrix::operator-=(const SquareMatrix& i)
+SquareMatrix& SquareMatrix::operator-=(const SquareMatrix& m)
 {
-    if(this->n != i.n)
+    if(this->n != m.n)
     {
         throw std::invalid_argument("operator requires same sized matrices");
     }
 
-    auto row_i = i.elements.begin();
-    for(auto& row_this : this->elements)
+    unsigned int threadsSupported = std::thread::hardware_concurrency();
+    if(threadsSupported == 0)
     {
-        auto elem_i = row_i->begin();
-        for(auto& elem_this : row_this)
-        {
-            elem_this -= *elem_i;
-            elem_i++;
-        }
-        row_i++;
+        threadsSupported = 8; // anything should be fine
     }
+
+    std::vector<std::thread> workers;
+
+	size_t t_n = this->elements.size();
+
+	float step = t_n / (float) threadsSupported;
+
+    for(size_t worker = 0; worker < threadsSupported; worker++)
+    {
+		size_t worker_start = roundf(worker * step);
+		size_t worker_stop = roundf(((worker+1) * step));
+
+        workers.push_back(std::thread([&, worker_start, worker_stop]()
+        {
+            for(size_t i = worker_start; i < worker_stop; i++)
+            {
+                for(size_t j = 0; j < t_n; j++)
+                {
+                    this->elements.at(i).at(j) -= m.elements[i][j];
+                }
+            }
+        }));
+
+    }
+
+    std::for_each(workers.begin(), workers.end(), [](std::thread &t)
+    {
+        t.join();
+    });
 
 	return *this;
 }
@@ -289,19 +336,45 @@ SquareMatrix& SquareMatrix::operator*=(const SquareMatrix& i)
 
 	SquareMatrix temp = *this;
 
-	size_t t_n = this->elements.size();
-    for(size_t in = 0; in < t_n; in++)
+    unsigned int threadsSupported = std::thread::hardware_concurrency();
+    if(threadsSupported == 0)
     {
-        for(size_t j = 0; j < t_n; j++)
-        {
-            IntElement sum;
-            for(size_t x = 0; x < t_n; x++)
-            {
-                sum += temp.elements.at(in).at(x) * i.elements.at(x).at(j);
-            }
-            this->elements.at(in).at(j) = sum;
-        }
+        threadsSupported = 8; // anything should be fine
     }
+
+    std::vector<std::thread> workers;
+
+	size_t t_n = this->elements.size();
+
+	float step = t_n / (float) threadsSupported;
+
+    for(size_t worker = 0; worker < threadsSupported; worker++)
+    {
+		size_t worker_start = roundf(worker * step);
+		size_t worker_stop = roundf(((worker+1) * step));
+
+        workers.push_back(std::thread([&, worker_start, worker_stop]()
+        {
+            for(size_t in = worker_start; in < worker_stop; in++)
+            {
+                for(size_t j = 0; j < t_n; j++)
+                {
+                    IntElement sum;
+                    for(size_t x = 0; x < t_n; x++)
+                    {
+                        sum += temp.elements.at(in).at(x) * i.elements.at(x).at(j);
+                    }
+                    this->elements.at(in).at(j) = sum;
+                }
+            }
+        }));
+    }
+
+    std::for_each(workers.begin(), workers.end(), [](std::thread &t)
+    {
+        t.join();
+    });
+
 	return *this;
 }
 

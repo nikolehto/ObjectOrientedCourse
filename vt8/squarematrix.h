@@ -7,6 +7,7 @@
 #include <sstream>
 #include <vector>
 #include <algorithm>
+#include <thread>
 
 /**
  * @file squarematrix.h
@@ -20,6 +21,9 @@ private:
 	int n;
 	std::vector<std::vector<IntElement>> elements;
 	void fromString(const std::string& s);
+    void multi_loop(int start, int stop, const SquareMatrix& m);
+    void addition_loop(int start, int stop, const SquareMatrix& m);
+    void substraction_loop(int start, int stop, const SquareMatrix& m);
 
 public:
 	SquareMatrix();

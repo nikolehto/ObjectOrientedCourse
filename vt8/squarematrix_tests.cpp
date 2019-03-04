@@ -204,5 +204,11 @@ TEST_CASE("SquareMatrix BIG TRANSPOSE", "[SquareMatrixN]")
 TEST_CASE("SquareMatrix N constructor", "[SquareMatrixNcon]")
 {
     SquareMatrix a(5);
-    std::cout << a;
+
+    SquareMatrix con("[[1,2,3,4,5,6,7][1,2,3,4,5,6,7][1,2,3,4,5,6,7][1,2,3,4,5,6,7][1,2,3,4,5,6,7][1,2,3,4,5,6,7][1,2,3,4,5,6,7]]");
+    SquareMatrix result("[[28,56,84,112,140,168,196][28,56,84,112,140,168,196][28,56,84,112,140,168,196][28,56,84,112,140,168,196][28,56,84,112,140,168,196][28,56,84,112,140,168,196][28,56,84,112,140,168,196]]");
+
+    SquareMatrix conPow2(con*con);
+
+    REQUIRE(conPow2 == result);
 }

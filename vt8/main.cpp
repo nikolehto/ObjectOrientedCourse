@@ -10,13 +10,19 @@
  *  */
 
 
-void benchmark(int n)
+void benchmark(int multi_n, int other_n)
 {
+    unsigned int threadsSupported = std::thread::hardware_concurrency();
+    std::cout << "Threads detected: " << threadsSupported << std::endl;
+
     std::chrono::time_point<std::chrono::system_clock> t0, t1, t2;
     std::chrono::duration<double> elapsed_seconds;
 
+    // Constructor test
+
     t0 = t1 = std::chrono::system_clock::now();
-    SquareMatrix a(n), b(n), c(n);
+    SquareMatrix m_a(multi_n), m_b(multi_n);
+    SquareMatrix o_a(other_n), o_b(other_n);
     SquareMatrix result;
 
     t2 = std::chrono::system_clock::now();
@@ -24,24 +30,39 @@ void benchmark(int n)
     std::cout << "constructors took: " << elapsed_seconds.count() << '\n';
     t1 = std::chrono::system_clock::now();
 
-    result = a + b;
+    result = o_a + o_b;
+    result += o_a;
+    result += o_b;
+    result += result;
+    result += o_a;
+    result += o_b;
+    result += result;
 
     t2 = std::chrono::system_clock::now();
     elapsed_seconds = t2 - t1;
     std::cout << "addition took: " << elapsed_seconds.count() << '\n';
     t1 = std::chrono::system_clock::now();
 
-    result *= result;
+    result = o_a - o_b;
+    result -= o_a;
+    result -= o_b;
+    result -= result;
+    result -= o_a;
+    result -= o_b;
+    result -= result;
 
     t2 = std::chrono::system_clock::now();
     elapsed_seconds = t2 - t1;
-    std::cout << "multiplication took: " << elapsed_seconds.count() << '\n';
+    std::cout << "substraction took: " << elapsed_seconds.count() << '\n';
     t1 = std::chrono::system_clock::now();
 
-    result -= b;
+    result = m_a * m_b.transpose();
+    result *= m_a;
 
+    t2 = std::chrono::system_clock::now();
     elapsed_seconds = t2 - t1;
-    std::cout << "substraction took: " << elapsed_seconds.count() << '\n';
+    std::cout << "multiplication and transpose took: " << elapsed_seconds.count() << '\n';
+
 
     t2 = std::chrono::system_clock::now();
     elapsed_seconds = t2-t0;
@@ -55,21 +76,21 @@ void benchmark(int n)
  */
 int main(int argc, char* argv[])
 {
-    int n = 600;
-
-    benchmark(n); // debug
-    return 0;    // debug
+    // benchmark(500, 5000); // debug
+    // return 0;    // debug
 
     if(argc < 2)
     {
         Catch::Session().run();
         return 0;
     }
+
     else if(std::string(argv[1]) == "--benchmark" || std::string(argv[1]) == "-b")
     {
-        benchmark(n);
+        benchmark(700, 7000);
         return 0;
     }
+
     else
     {
         std::cout << "usage: \n"
