@@ -2,7 +2,6 @@
 #include "catch.hpp"
 #include "intelement.h"
 #include "squarematrix.h"
-#include <math.h>
 #include <chrono>
 
 /**

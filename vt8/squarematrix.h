@@ -8,6 +8,7 @@
 #include <vector>
 #include <algorithm>
 #include <thread>
+#include <math.h>
 
 /**
  * @file squarematrix.h
