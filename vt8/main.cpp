@@ -2,6 +2,7 @@
 #include "catch.hpp"
 #include "intelement.h"
 #include "squarematrix.h"
+#include <math.h>
 #include <chrono>
 
 /**
@@ -10,10 +11,10 @@
  *  */
 
 
- /**
- *  \brief Main function
- *  \return 0 on success, 1 on wrong argument
- */
+/**
+*  \brief Main function
+*  \return 0 on success, 1 on wrong argument
+*/
 void benchmark(int multi_n, int other_n)
 {
     unsigned int threadsSupported = std::thread::hardware_concurrency();
